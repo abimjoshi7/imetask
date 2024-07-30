@@ -5,21 +5,23 @@ class CustomGridView extends StatelessWidget {
     super.key,
     required this.child,
     required this.itemCount,
+    this.aspectRatio = 3 / 2,
   });
 
   final Widget child;
   final int itemCount;
+  final double aspectRatio;
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        childAspectRatio: 3 / 2,
-      ),
-      itemBuilder: (context, index) => CircleAvatar(),
-      itemCount: 4,
-      physics: NeverScrollableScrollPhysics(),
+          crossAxisCount: 3,
+          childAspectRatio: aspectRatio,
+          mainAxisSpacing: 10),
+      itemBuilder: (context, index) => child,
+      itemCount: itemCount,
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
     );
   }

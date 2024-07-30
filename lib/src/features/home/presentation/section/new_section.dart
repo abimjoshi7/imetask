@@ -4,15 +4,20 @@ import '../widgets/custom_grid_view.dart';
 import '../widgets/icon_text.dart';
 import '../widgets/section_view.dart';
 
-class PopularMerchantSection extends StatelessWidget {
+class NewSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SectionView(
-        label: "Popular Merchant",
+        label: "What's New",
         child: CustomGridView(
-          itemCount: 5,
+          itemCount: 3,
           child: IconText(
             title: "Cable Car",
-            icon: CircleAvatar(),
+            icon: Container(
+              height: 40,
+              width: 40,
+              color: Colors.amber,
+              child: Center(child: Text("data")),
+            ),
           ),
         ),
       );
