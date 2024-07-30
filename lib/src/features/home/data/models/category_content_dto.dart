@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-import 'package:imepay/src/models/sub_category.dart';
+import 'package:imepay/src/features/home/data/models/sub_category_dto.dart';
 
-class CategoryContent extends Equatable {
+class CategoryContentDTO extends Equatable {
   final String promotionalTxt;
   final String redirectionValue;
   final String? btnIcon;
@@ -11,7 +11,7 @@ class CategoryContent extends Equatable {
   final bool isDisabled;
   final String title;
   final String? btnLabel;
-  final List<SubCategory>? subCategory;
+  final List<SubCategoryDTO>? subCategory;
   final String redirectionModule;
   final int displayOrder;
   final dynamic data;
@@ -20,7 +20,7 @@ class CategoryContent extends Equatable {
   final String? titleEng;
   final String disableMesg;
 
-  const CategoryContent({
+  const CategoryContentDTO({
     required this.promotionalTxt,
     required this.redirectionValue,
     required this.btnIcon,
@@ -39,30 +39,30 @@ class CategoryContent extends Equatable {
     required this.disableMesg,
   });
 
-  factory CategoryContent.fromMap(Map<String, dynamic> mapItem) =>
-      CategoryContent(
-        promotionalTxt: mapItem["PromotionalTxt"],
-        redirectionValue: mapItem["RedirectionValue"],
-        btnIcon: mapItem["BtnIcon"],
-        transactionId: mapItem["TransactionId"],
-        subTitle: mapItem["SubTitle"],
-        isDisabled: mapItem["IsDisabled"],
-        title: mapItem["Title"],
-        btnLabel: mapItem["BtnLabel"],
-        subCategory: mapItem["SubCategory"] == null
+  factory CategoryContentDTO.fromJson(Map<String, dynamic> json) =>
+      CategoryContentDTO(
+        promotionalTxt: json["PromotionalTxt"],
+        redirectionValue: json["RedirectionValue"],
+        btnIcon: json["BtnIcon"],
+        transactionId: json["TransactionId"],
+        subTitle: json["SubTitle"],
+        isDisabled: json["IsDisabled"],
+        title: json["Title"],
+        btnLabel: json["BtnLabel"],
+        subCategory: json["SubCategory"] == null
             ? []
-            : List<SubCategory>.from(
-                mapItem["SubCategory"]!.map((x) => SubCategory.fromMap(x))),
-        redirectionModule: mapItem["RedirectionModule"],
-        displayOrder: mapItem["DisplayOrder"],
-        data: mapItem["Data"],
-        redirectionType: mapItem["RedirectionType"],
-        icon: mapItem["Icon"],
-        titleEng: mapItem["TitleEng"],
-        disableMesg: mapItem["DisableMesg"],
+            : List<SubCategoryDTO>.from(
+                json["SubCategory"]!.map((x) => SubCategoryDTO.fromJson(x))),
+        redirectionModule: json["RedirectionModule"],
+        displayOrder: json["DisplayOrder"],
+        data: json["Data"],
+        redirectionType: json["RedirectionType"],
+        icon: json["Icon"],
+        titleEng: json["TitleEng"],
+        disableMesg: json["DisableMesg"],
       );
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toJson() => {
         "PromotionalTxt": promotionalTxt,
         "RedirectionValue": redirectionValue,
         "BtnIcon": btnIcon,
@@ -73,7 +73,7 @@ class CategoryContent extends Equatable {
         "BtnLabel": btnLabel,
         "SubCategory": subCategory == null
             ? []
-            : List<dynamic>.from(subCategory!.map((x) => x.toMap())),
+            : List<dynamic>.from(subCategory!.map((x) => x.toJson())),
         "RedirectionModule": redirectionModule,
         "DisplayOrder": displayOrder,
         "Data": data,

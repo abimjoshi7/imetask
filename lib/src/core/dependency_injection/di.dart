@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:imepay/src/core/services/database/database.dart';
@@ -21,4 +22,7 @@ abstract class CoreModule {
 
   @lazySingleton
   Dio get dio => Dio();
+
+  @lazySingleton
+  Connectivity get connectivity => Connectivity();
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:imepay/src/core/utils/color_palette.dart';
 
-import '../widgets/custom_grid_view.dart';
 import '../widgets/widgets.dart';
 
 class ServiceSection extends StatelessWidget {

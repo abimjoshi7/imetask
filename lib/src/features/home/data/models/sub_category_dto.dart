@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class SubCategory extends Equatable {
+class SubCategoryDTO extends Equatable {
   final String disableMesg;
   final String promotionalTxt;
   final String redirectionModule;
@@ -12,7 +12,7 @@ class SubCategory extends Equatable {
   final String icon;
   final String title;
 
-  const SubCategory({
+  const SubCategoryDTO({
     required this.disableMesg,
     required this.promotionalTxt,
     required this.redirectionModule,
@@ -25,20 +25,20 @@ class SubCategory extends Equatable {
     required this.title,
   });
 
-  factory SubCategory.fromMap(Map<String, dynamic> mapItem) => SubCategory(
-        disableMesg: mapItem["DisableMesg"],
-        promotionalTxt: mapItem["PromotionalTxt"]!,
-        redirectionModule: mapItem["RedirectionModule"],
-        isDisabled: mapItem["IsDisabled"],
-        titleEng: mapItem["TitleEng"],
-        redirectionType: mapItem["RedirectionType"],
-        redirectionValue: mapItem["RedirectionValue"],
-        displayOrder: mapItem["DisplayOrder"],
-        icon: mapItem["Icon"],
-        title: mapItem["Title"],
+  factory SubCategoryDTO.fromJson(Map<String, dynamic> json) => SubCategoryDTO(
+        disableMesg: json["DisableMesg"],
+        promotionalTxt: json["PromotionalTxt"]!,
+        redirectionModule: json["RedirectionModule"],
+        isDisabled: json["IsDisabled"],
+        titleEng: json["TitleEng"],
+        redirectionType: json["RedirectionType"],
+        redirectionValue: json["RedirectionValue"],
+        displayOrder: json["DisplayOrder"],
+        icon: json["Icon"],
+        title: json["Title"],
       );
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toJson() => {
         "DisableMesg": disableMesg,
         "PromotionalTxt": promotionalTxt,
         "RedirectionModule": redirectionModule,

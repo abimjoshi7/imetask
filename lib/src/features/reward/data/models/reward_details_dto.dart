@@ -1,23 +1,24 @@
 import 'package:equatable/equatable.dart';
 
-class RewardDetails extends Equatable {
+class RewardDetailsDTO extends Equatable {
   final int currentCredits;
   final String memberType;
   final String msisdn;
 
-  const RewardDetails({
+  const RewardDetailsDTO({
     required this.currentCredits,
     required this.memberType,
     required this.msisdn,
   });
 
-  factory RewardDetails.fromMap(Map<String, dynamic> json) => RewardDetails(
+  factory RewardDetailsDTO.fromJson(Map<String, dynamic> json) =>
+      RewardDetailsDTO(
         currentCredits: json["CurrentCredits"],
         memberType: json["MemberType"],
         msisdn: json["Msisdn"],
       );
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toJson() => {
         "CurrentCredits": currentCredits,
         "MemberType": memberType,
         "Msisdn": msisdn,

@@ -1,13 +1,13 @@
-import 'package:imepay/src/models/reponse_data.dart';
+import 'package:imepay/src/features/home/data/models/reponse_data_dto.dart';
 
-class BaseResponse {
+class BaseResponseDTO {
   final String responseCode;
-  final ResponseData responseData;
+  final ResponseDataDTO responseData;
   final dynamic currentBalance;
   final String responseDescription;
   final dynamic referenceId;
 
-  BaseResponse({
+  BaseResponseDTO({
     required this.responseCode,
     required this.responseData,
     required this.currentBalance,
@@ -15,17 +15,18 @@ class BaseResponse {
     required this.referenceId,
   });
 
-  factory BaseResponse.fromMap(Map<String, dynamic> json) => BaseResponse(
+  factory BaseResponseDTO.fromJson(Map<String, dynamic> json) =>
+      BaseResponseDTO(
         responseCode: json["ResponseCode"],
-        responseData: ResponseData.fromMap(json["ResponseData"]),
+        responseData: ResponseDataDTO.fromJson(json["ResponseData"]),
         currentBalance: json["CurrentBalance"],
         responseDescription: json["ResponseDescription"],
         referenceId: json["ReferenceID"],
       );
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toJson() => {
         "ResponseCode": responseCode,
-        "ResponseData": responseData.toMap(),
+        "ResponseData": responseData.toJson(),
         "CurrentBalance": currentBalance,
         "ResponseDescription": responseDescription,
         "ReferenceID": referenceId,

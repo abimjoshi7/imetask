@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:imepay/src/core/utils/context_ext.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:imepay/src/core/utils/color_palette.dart';
+import 'package:imepay/src/core/utils/context_ext.dart';
+import 'package:imepay/src/features/home/presentation/cubit/home_cubit.dart';
 import 'package:imepay/src/features/home/presentation/presentation.dart';
-
-import '../section/section.dart';
 
 class HomePageV2 extends StatelessWidget {
   const HomePageV2({super.key});
@@ -30,7 +30,12 @@ class HomePageV2 extends StatelessWidget {
         actions: List.generate(
           3,
           (index) => IconButton(
-            onPressed: () {},
+            onPressed: () {
+              if (context.read<HomeCubit>().state is HomeSuccess) {
+                final data = context.read<HomeCubit>().state as HomeSuccess;
+                print(data.data.responseData);
+              }
+            },
             icon: Icon(
               Icons.search,
             ),
@@ -38,33 +43,39 @@ class HomePageV2 extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: () async {},
-          child: Stack(
-            children: [
-              ListView(
-                children: [
-                  BannerSection(),
-                  QuickLinkSection(),
-                  BankLinkSection(),
-                  ServiceSection(),
-                  PromotionSection(),
-                  RecommendationSection(),
-                  NewSection(),
-                  CableCarSection(),
-                  PopularMerchantSection(),
-                  SizedBox(
-                    height: context.height * 0.08 + 32,
-                  )
-                ],
-              ),
-              Positioned(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: BottomBar(),
+        child: BlocListener<HomeCubit, HomeState>(
+          listenWhen: (previous, current) => previous != current,
+          listener: (context, state) {
+            if (state is HomeFailure) context.showSnackBar(state.errorMsg);
+          },
+          child: RefreshIndicator(
+            onRefresh: context.read<HomeCubit>().fetchInitialData,
+            child: Stack(
+              children: [
+                ListView(
+                  children: [
+                    BannerSection(),
+                    QuickLinkSection(),
+                    BankLinkSection(),
+                    ServiceSection(),
+                    PromotionSection(),
+                    RecommendationSection(),
+                    NewSection(),
+                    CableCarSection(),
+                    PopularMerchantSection(),
+                    SizedBox(
+                      height: context.height * 0.08 + 32,
+                    )
+                  ],
                 ),
-              )
-            ],
+                Positioned(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: BottomBar(),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

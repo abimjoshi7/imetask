@@ -1,16 +1,16 @@
 import 'package:equatable/equatable.dart';
 
-import 'package:imepay/src/models/category_content.dart';
+import 'package:imepay/src/features/home/data/models/category_content_dto.dart';
 
-class Menu extends Equatable {
-  final List<CategoryContent> categoryContent;
+class MenuDTO extends Equatable {
+  final List<CategoryContentDTO> categoryContent;
   final String promotionalTxt;
   final String categoryTitleEng;
   final String categoryTitle;
   final int categoryTheme;
   final int displayOrder;
 
-  const Menu({
+  const MenuDTO({
     required this.categoryContent,
     required this.promotionalTxt,
     required this.categoryTitleEng,
@@ -19,19 +19,19 @@ class Menu extends Equatable {
     required this.displayOrder,
   });
 
-  factory Menu.fromMap(Map<String, dynamic> mapItem) => Menu(
-        categoryContent: List<CategoryContent>.from(
-            mapItem["CategoryContent"].map((x) => CategoryContent.fromMap(x))),
-        promotionalTxt: mapItem["PromotionalTxt"],
-        categoryTitleEng: mapItem["CategoryTitleEng"],
-        categoryTitle: mapItem["CategoryTitle"],
-        categoryTheme: mapItem["CategoryTheme"],
-        displayOrder: mapItem["DisplayOrder"],
+  factory MenuDTO.fromJson(Map<String, dynamic> json) => MenuDTO(
+        categoryContent: List<CategoryContentDTO>.from(
+            json["CategoryContent"].map((x) => CategoryContentDTO.fromJson(x))),
+        promotionalTxt: json["PromotionalTxt"],
+        categoryTitleEng: json["CategoryTitleEng"],
+        categoryTitle: json["CategoryTitle"],
+        categoryTheme: json["CategoryTheme"],
+        displayOrder: json["DisplayOrder"],
       );
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toJson() => {
         "CategoryContent":
-            List<dynamic>.from(categoryContent.map((x) => x.toMap())),
+            List<dynamic>.from(categoryContent.map((x) => x.toJson())),
         "PromotionalTxt": promotionalTxt,
         "CategoryTitleEng": categoryTitleEng,
         "CategoryTitle": categoryTitle,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:imepay/src/core/services/database/database.dart';
 import 'package:imepay/src/core/dependency_injection/di.dart';
-import 'package:imepay/src/person_dto.dart';
 
 import '../settings/settings_view.dart';
 import 'sample_item.dart';

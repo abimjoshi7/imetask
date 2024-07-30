@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class UserInfo extends Equatable {
+class UserInfoDTO extends Equatable {
   final String profileImage;
   final DateTime dob;
   final bool isEmailVerified;
@@ -22,7 +22,7 @@ class UserInfo extends Equatable {
   final bool isSahayatriEnabled;
   final String walletType;
 
-  const UserInfo({
+  const UserInfoDTO({
     required this.profileImage,
     required this.dob,
     required this.isEmailVerified,
@@ -45,30 +45,30 @@ class UserInfo extends Equatable {
     required this.walletType,
   });
 
-  factory UserInfo.fromMap(Map<String, dynamic> mapItem) => UserInfo(
-        profileImage: mapItem["ProfileImage"],
-        dob: DateTime.parse(mapItem["Dob"]),
-        isEmailVerified: mapItem["IsEmailVerified"],
-        dobDateFormat: mapItem["DobDateFormat"],
-        msisdn: mapItem["Msisdn"],
-        accCode: mapItem["AccCode"],
-        kycApproved: mapItem["KYCApproved"],
-        userType: mapItem["UserType"],
-        isNomineeAdded: mapItem["IsNomineeAdded"],
-        checkUpdate: mapItem["CheckUpdate"],
-        isPinSet: mapItem["IsPinSet"],
-        isRaffle: mapItem["IsRaffle"],
-        nfcCardNo: mapItem["NfcCardNo"],
-        userFullName: mapItem["UserFullName"],
-        isSahayatri: mapItem["IsSahayatri"],
-        qrPayload: mapItem["QrPayload"],
-        gender: mapItem["Gender"],
-        email: mapItem["Email"],
-        isSahayatriEnabled: mapItem["IsSahayatriEnabled"],
-        walletType: mapItem["WalletType"],
+  factory UserInfoDTO.fromJson(Map<String, dynamic> json) => UserInfoDTO(
+        profileImage: json["ProfileImage"],
+        dob: DateTime.parse(json["Dob"]),
+        isEmailVerified: json["IsEmailVerified"],
+        dobDateFormat: json["DobDateFormat"],
+        msisdn: json["Msisdn"],
+        accCode: json["AccCode"],
+        kycApproved: json["KYCApproved"],
+        userType: json["UserType"],
+        isNomineeAdded: json["IsNomineeAdded"],
+        checkUpdate: json["CheckUpdate"],
+        isPinSet: json["IsPinSet"],
+        isRaffle: json["IsRaffle"],
+        nfcCardNo: json["NfcCardNo"],
+        userFullName: json["UserFullName"],
+        isSahayatri: json["IsSahayatri"],
+        qrPayload: json["QrPayload"],
+        gender: json["Gender"],
+        email: json["Email"],
+        isSahayatriEnabled: json["IsSahayatriEnabled"],
+        walletType: json["WalletType"],
       );
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toJson() => {
         "ProfileImage": profileImage,
         "Dob":
             "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
