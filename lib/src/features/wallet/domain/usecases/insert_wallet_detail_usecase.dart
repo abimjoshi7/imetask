@@ -1,6 +1,5 @@
 import 'package:fpdart/fpdart.dart' show TaskEither;
 import 'package:imepay/src/core/core.dart';
-import 'package:imepay/src/features/wallet/domain/repositories/wallet_repository.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../features.dart';

@@ -10,11 +10,11 @@ class WalletDetailsDTO extends WalletDetails {
     required super.interestDate,
     required super.memberType,
     required super.status,
-    this.id,
+    this.id = 1,
   });
 
-  @PrimaryKey(autoGenerate: true)
-  final int? id;
+  @PrimaryKey()
+  final int id;
 
   factory WalletDetailsDTO.fromJson(Map<String, dynamic> json) =>
       WalletDetailsDTO(

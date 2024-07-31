@@ -1,9 +1,7 @@
 import 'package:fpdart/fpdart.dart' show TaskEither;
-import 'package:imepay/src/features/wallet/domain/repositories/wallet_repository.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../features.dart';
-import '../datasources/local/wallet_local_ds.dart';
 
 @LazySingleton(as: WalletRepository)
 class WalletRepositoryImpl implements WalletRepository {

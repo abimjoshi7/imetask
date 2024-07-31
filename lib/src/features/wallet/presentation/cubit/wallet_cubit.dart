@@ -2,10 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:imepay/src/features/features.dart';
-import 'package:imepay/src/features/wallet/domain/usecases/get_wallet_details_usecase.dart';
-import 'package:imepay/src/features/wallet/domain/usecases/insert_wallet_detail_usecase.dart';
-
-import '../../domain/usecases/get_wallet_detail_usecase.dart';
 
 part 'wallet_state.dart';
 

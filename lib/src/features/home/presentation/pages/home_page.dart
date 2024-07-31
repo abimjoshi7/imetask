@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:imepay/src/core/core.dart';
 import 'package:imepay/src/features/features.dart';
-import 'package:imepay/src/features/home/presentation/cubit/home_cubit.dart';
-import 'package:imepay/src/features/home/presentation/presentation.dart';
-import 'package:imepay/src/features/wallet/presentation/cubit/wallet_cubit.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -58,7 +55,6 @@ class HomePage extends StatelessWidget {
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {},
-          // context.read<HomeCubit>().fetchInitialData,
           child: Stack(
             children: [
               ListView(

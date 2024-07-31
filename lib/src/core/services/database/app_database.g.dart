@@ -96,7 +96,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Wallet` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `memberType` TEXT NOT NULL, `amount` TEXT NOT NULL, `interestAmount` TEXT NOT NULL, `totalCreditPoints` TEXT NOT NULL, `interestDate` INTEGER NOT NULL, `status` TEXT)');
+            'CREATE TABLE IF NOT EXISTS `Wallet` (`id` INTEGER NOT NULL, `memberType` TEXT NOT NULL, `amount` TEXT NOT NULL, `interestAmount` TEXT NOT NULL, `totalCreditPoints` TEXT NOT NULL, `interestDate` INTEGER NOT NULL, `status` TEXT, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -147,7 +147,7 @@ class _$WalletDao extends WalletDao {
             interestDate: _dateTimeConverter.decode(row['interestDate'] as int),
             memberType: row['memberType'] as String,
             status: row['status'] as String?,
-            id: row['id'] as int?),
+            id: row['id'] as int),
         arguments: [id]);
   }
 
@@ -161,7 +161,7 @@ class _$WalletDao extends WalletDao {
             interestDate: _dateTimeConverter.decode(row['interestDate'] as int),
             memberType: row['memberType'] as String,
             status: row['status'] as String?,
-            id: row['id'] as int?));
+            id: row['id'] as int));
   }
 
   @override
@@ -174,7 +174,7 @@ class _$WalletDao extends WalletDao {
             interestDate: _dateTimeConverter.decode(row['interestDate'] as int),
             memberType: row['memberType'] as String,
             status: row['status'] as String?,
-            id: row['id'] as int?),
+            id: row['id'] as int),
         queryableName: 'Wallet',
         isView: false);
   }
