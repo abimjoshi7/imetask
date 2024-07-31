@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:imepay/src/core/core.dart';
 import 'package:imepay/src/features/home/presentation/cubit/home_cubit.dart';
+import 'package:imepay/src/features/wallet/presentation/cubit/wallet_cubit.dart';
 
 class GlobalProviders extends StatelessWidget {
   const GlobalProviders({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Widget child;
 
@@ -17,9 +18,16 @@ class GlobalProviders extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => HomeCubit(
-            locator(),
+            getInitialDataUsecase: locator(),
           ),
-        )
+        ),
+        BlocProvider(
+          create: (context) => WalletCubit(
+            getWalletDetailUsecase: locator(),
+            getWalletDetailsUsecase: locator(),
+            insertWalletDetailUsecase: locator(),
+          ),
+        ),
       ],
       child: child,
     );

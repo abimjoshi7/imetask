@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
         listenable: settingsController,
         builder: (BuildContext context, Widget? child) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             // Providing a restorationScopeId allows the Navigator built by the
             // MaterialApp to restore the navigation stack when a user leaves and
             // returns to the app after it has been killed while running in the
@@ -76,7 +77,7 @@ class MyApp extends StatelessWidget {
                       return const SampleItemDetailsView();
                     case SampleItemListView.routeName:
                     default:
-                      return const HomePageV2();
+                      return const HomePage();
                   }
                 },
               );

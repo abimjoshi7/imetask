@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:imepay/src/core/services/database/database.dart';
+import 'package:imepay/src/core/services/database/app_database.dart';
 import 'package:imepay/src/core/dependency_injection/di.dart';
 
 import '../settings/settings_view.dart';
@@ -67,13 +67,10 @@ class SampleItemListView extends StatelessWidget {
             },
             trailing: TextButton(
               onPressed: () async {
-                final personDao = locator<AppDatabase>().personDao;
+                final walletDao = locator<AppDatabase>().walletDao;
 
                 // const person = PersonDto(id: 3, name: 'Adam');
                 // await personDao.insertPerson(person);
-
-                final users = await personDao.findAllPeople();
-                print(users);
 
                 // final result = await personDao.findPersonById(1).first;
                 // print(result?.personId);

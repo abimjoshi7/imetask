@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'database.dart';
+part of 'app_database.dart';
 
 // **************************************************************************
 // FloorGenerator
@@ -72,7 +72,7 @@ class _$AppDatabase extends AppDatabase {
     changeListener = listener ?? StreamController<String>.broadcast();
   }
 
-  PersonDao? _personDaoInstance;
+  WalletDao? _walletDaoInstance;
 
   Future<sqflite.Database> open(
     String path,
@@ -80,7 +80,7 @@ class _$AppDatabase extends AppDatabase {
     Callback? callback,
   ]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
-      version: 1,
+      version: 2,
       onConfigure: (database) async {
         await database.execute('PRAGMA foreign_keys = ON');
         await callback?.onConfigure?.call(database);
@@ -96,7 +96,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Person` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `personId` INTEGER NOT NULL, `personName` TEXT NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `Wallet` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `memberType` TEXT NOT NULL, `amount` TEXT NOT NULL, `interestAmount` TEXT NOT NULL, `totalCreditPoints` TEXT NOT NULL, `interestDate` INTEGER NOT NULL, `status` TEXT)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -105,24 +105,27 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  PersonDao get personDao {
-    return _personDaoInstance ??= _$PersonDao(database, changeListener);
+  WalletDao get walletDao {
+    return _walletDaoInstance ??= _$WalletDao(database, changeListener);
   }
 }
 
-class _$PersonDao extends PersonDao {
-  _$PersonDao(
+class _$WalletDao extends WalletDao {
+  _$WalletDao(
     this.database,
     this.changeListener,
   )   : _queryAdapter = QueryAdapter(database, changeListener),
-        _personDtoInsertionAdapter = InsertionAdapter(
+        _walletDetailsDTOInsertionAdapter = InsertionAdapter(
             database,
-            'Person',
-            (PersonDto item) => <String, Object?>{
+            'Wallet',
+            (WalletDetailsDTO item) => <String, Object?>{
                   'id': item.id,
-                  'name': item.name,
-                  'personId': item.personId,
-                  'personName': item.personName
+                  'memberType': item.memberType,
+                  'amount': item.amount,
+                  'interestAmount': item.interestAmount,
+                  'totalCreditPoints': item.totalCreditPoints,
+                  'interestDate': _dateTimeConverter.encode(item.interestDate),
+                  'status': item.status
                 },
             changeListener);
 
@@ -132,35 +135,56 @@ class _$PersonDao extends PersonDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<PersonDto> _personDtoInsertionAdapter;
+  final InsertionAdapter<WalletDetailsDTO> _walletDetailsDTOInsertionAdapter;
 
   @override
-  Future<List<PersonDto>> findAllPeople() async {
-    return _queryAdapter.queryList('SELECT * FROM Person',
-        mapper: (Map<String, Object?> row) =>
-            PersonDto(id: row['id'] as int, name: row['name'] as String));
+  Future<WalletDetailsDTO?> findWalletDetailById(int id) async {
+    return _queryAdapter.query('SELECT * FROM Wallet WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => WalletDetailsDTO(
+            amount: row['amount'] as String,
+            interestAmount: row['interestAmount'] as String,
+            totalCreditPoints: row['totalCreditPoints'] as String,
+            interestDate: _dateTimeConverter.decode(row['interestDate'] as int),
+            memberType: row['memberType'] as String,
+            status: row['status'] as String?,
+            id: row['id'] as int?),
+        arguments: [id]);
   }
 
   @override
-  Stream<List<String>> findAllPeopleName() {
-    return _queryAdapter.queryListStream('SELECT name FROM Person',
-        mapper: (Map<String, Object?> row) => row.values.first as String,
-        queryableName: 'Person',
+  Future<List<WalletDetailsDTO>> findAllWalletDetails() async {
+    return _queryAdapter.queryList('SELECT * FROM Wallet',
+        mapper: (Map<String, Object?> row) => WalletDetailsDTO(
+            amount: row['amount'] as String,
+            interestAmount: row['interestAmount'] as String,
+            totalCreditPoints: row['totalCreditPoints'] as String,
+            interestDate: _dateTimeConverter.decode(row['interestDate'] as int),
+            memberType: row['memberType'] as String,
+            status: row['status'] as String?,
+            id: row['id'] as int?));
+  }
+
+  @override
+  Stream<List<WalletDetailsDTO>> findAllWalletDetailsAsStream() {
+    return _queryAdapter.queryListStream('SELECT * FROM Wallet',
+        mapper: (Map<String, Object?> row) => WalletDetailsDTO(
+            amount: row['amount'] as String,
+            interestAmount: row['interestAmount'] as String,
+            totalCreditPoints: row['totalCreditPoints'] as String,
+            interestDate: _dateTimeConverter.decode(row['interestDate'] as int),
+            memberType: row['memberType'] as String,
+            status: row['status'] as String?,
+            id: row['id'] as int?),
+        queryableName: 'Wallet',
         isView: false);
   }
 
   @override
-  Stream<PersonDto?> findPersonById(int id) {
-    return _queryAdapter.queryStream('SELECT * FROM Person WHERE id = ?1',
-        mapper: (Map<String, Object?> row) =>
-            PersonDto(id: row['id'] as int, name: row['name'] as String),
-        arguments: [id],
-        queryableName: 'Person',
-        isView: false);
-  }
-
-  @override
-  Future<void> insertPerson(PersonDto person) async {
-    await _personDtoInsertionAdapter.insert(person, OnConflictStrategy.abort);
+  Future<void> insertWalletDetail(WalletDetailsDTO walletDetailsDTO) async {
+    await _walletDetailsDTOInsertionAdapter.insert(
+        walletDetailsDTO, OnConflictStrategy.replace);
   }
 }
+
+// ignore_for_file: unused_element
+final _dateTimeConverter = DateTimeConverter();

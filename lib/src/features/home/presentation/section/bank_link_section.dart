@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class BankLinkSection extends StatelessWidget {
+  const BankLinkSection({super.key});
+
   @override
   Widget build(BuildContext context) => Card.outlined(
         child: Padding(

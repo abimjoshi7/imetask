@@ -28,7 +28,7 @@ class WalletInfoCard extends StatelessWidget {
                         color: kClrDisabled,
                       ),
                     ),
-                    Icon(
+                    const Icon(
                       Icons.visibility,
                       size: 16,
                       color: kClrDisabled,
@@ -66,7 +66,7 @@ class WalletInfoCard extends StatelessWidget {
                         color: kClrDisabled,
                       ),
                     ),
-                    Icon(
+                    const Icon(
                       Icons.info_rounded,
                       size: 16,
                       color: kClrDisabled,

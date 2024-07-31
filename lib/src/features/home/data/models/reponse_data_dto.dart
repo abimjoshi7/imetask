@@ -1,8 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:imepay/src/features/features.dart';
 
-import 'package:imepay/src/features/home/data/models/menu_details_dto.dart';
-
 class ResponseDataDTO extends Equatable {
   final WalletDetailsDTO walletDetails;
   final RewardDetailsDTO rewardDetails;

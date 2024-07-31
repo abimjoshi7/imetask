@@ -18,7 +18,7 @@ class MembershipCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.markunread_mailbox_rounded,
                     size: 10,
                   ),

@@ -131,7 +131,7 @@ extension BuildContextEntension<T> on BuildContext {
         elevation: 4,
         showCloseIcon: true,
         behavior: SnackBarBehavior.floating,
-        margin: EdgeInsets.all(16),
+        margin: const EdgeInsets.all(16),
         padding: EdgeInsets.only(
           bottom: mediaQueryData.viewInsets.bottom,
         ),
@@ -146,7 +146,7 @@ extension BuildContextEntension<T> on BuildContext {
                       : Icons.warning_amber_rounded,
                   color: isSuccessful ? kClrGreen : kClrRed,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 16,
                 ),
                 Flexible(
@@ -154,7 +154,7 @@ extension BuildContextEntension<T> on BuildContext {
                     message ?? "Unknown Error. Please try again.",
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w500,
                     ),
                   ),

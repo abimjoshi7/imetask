@@ -16,9 +16,12 @@ void configureDependencies() => locator.initialize();
 @module
 abstract class CoreModule {
   @preResolve
-  Future<AppDatabase> initializeDatabase() async {
-    return await $FloorAppDatabase.databaseBuilder('app_database.db').build();
-  }
+  Future<AppDatabase> get database =>
+      $FloorAppDatabase.databaseBuilder('app_database.db').addMigrations(
+        [
+          migration1to2,
+        ],
+      ).build();
 
   @lazySingleton
   Dio get dio => Dio();

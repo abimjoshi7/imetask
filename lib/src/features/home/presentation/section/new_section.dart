@@ -5,6 +5,8 @@ import '../widgets/icon_text.dart';
 import '../widgets/section_view.dart';
 
 class NewSection extends StatelessWidget {
+  const NewSection({super.key});
+
   @override
   Widget build(BuildContext context) => SectionView(
         label: "What's New",
@@ -16,7 +18,7 @@ class NewSection extends StatelessWidget {
               height: 40,
               width: 40,
               color: Colors.amber,
-              child: Center(child: Text("data")),
+              child: const Center(child: Text("data")),
             ),
           ),
         ),

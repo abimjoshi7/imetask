@@ -25,7 +25,7 @@ class BannerCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                margin: EdgeInsets.symmetric(vertical: 16),
+                margin: const EdgeInsets.symmetric(vertical: 16),
                 height: 32,
                 width: 32,
                 decoration: BoxDecoration(

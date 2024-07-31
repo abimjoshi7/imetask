@@ -19,7 +19,7 @@ class ServiceSection extends StatelessWidget {
               width: 50,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                gradient: LinearGradient(
+                gradient: const LinearGradient(
                   begin: AlignmentDirectional.topCenter,
                   end: AlignmentDirectional.bottomCenter,
                   colors: [
@@ -29,7 +29,7 @@ class ServiceSection extends StatelessWidget {
                   ],
                 ),
               ),
-              child: Center(
+              child: const Center(
                 child: Icon(
                   Icons.account_balance_outlined,
                 ),

@@ -1,4 +1,4 @@
-import 'package:fpdart/src/task_either.dart';
+import 'package:fpdart/fpdart.dart' show TaskEither;
 import 'package:imepay/src/features/features.dart';
 import 'package:injectable/injectable.dart';
 

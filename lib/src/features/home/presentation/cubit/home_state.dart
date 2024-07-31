@@ -17,7 +17,7 @@ final class HomeLoading extends HomeState {
 final class HomeSuccess extends HomeState {
   final BaseResponseDTO data;
 
-  HomeSuccess(this.data);
+  const HomeSuccess(this.data);
   @override
   List<Object> get props => [data];
 }
@@ -25,7 +25,7 @@ final class HomeSuccess extends HomeState {
 final class HomeFailure extends HomeState {
   final String? errorMsg;
 
-  HomeFailure(this.errorMsg);
+  const HomeFailure(this.errorMsg);
   @override
   List<Object?> get props => [errorMsg];
 }
