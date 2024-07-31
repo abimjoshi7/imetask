@@ -74,6 +74,10 @@ class _$AppDatabase extends AppDatabase {
 
   WalletDao? _walletDaoInstance;
 
+  RewardDao? _rewardDaoInstance;
+
+  UserDao? _userDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
@@ -97,6 +101,10 @@ class _$AppDatabase extends AppDatabase {
       onCreate: (database, version) async {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Wallet` (`id` INTEGER NOT NULL, `memberType` TEXT NOT NULL, `amount` TEXT NOT NULL, `interestAmount` TEXT NOT NULL, `totalCreditPoints` TEXT NOT NULL, `interestDate` INTEGER NOT NULL, `status` TEXT, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `Reward` (`id` INTEGER NOT NULL, `currentCredits` INTEGER NOT NULL, `memberType` TEXT NOT NULL, `msisdn` TEXT NOT NULL, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `User` (`id` INTEGER NOT NULL, `profileImage` TEXT NOT NULL, `dob` INTEGER NOT NULL, `isEmailVerified` INTEGER NOT NULL, `dobDateFormat` TEXT NOT NULL, `msisdn` TEXT NOT NULL, `accCode` TEXT NOT NULL, `kycApproved` TEXT NOT NULL, `userType` TEXT NOT NULL, `isNomineeAdded` INTEGER NOT NULL, `checkUpdate` TEXT NOT NULL, `isPinSet` INTEGER NOT NULL, `isRaffle` INTEGER NOT NULL, `nfcCardNo` TEXT NOT NULL, `userFullName` TEXT NOT NULL, `isSahayatri` INTEGER NOT NULL, `qrPayload` TEXT NOT NULL, `gender` TEXT NOT NULL, `email` TEXT NOT NULL, `isSahayatriEnabled` INTEGER NOT NULL, `walletType` TEXT NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -107,6 +115,16 @@ class _$AppDatabase extends AppDatabase {
   @override
   WalletDao get walletDao {
     return _walletDaoInstance ??= _$WalletDao(database, changeListener);
+  }
+
+  @override
+  RewardDao get rewardDao {
+    return _rewardDaoInstance ??= _$RewardDao(database, changeListener);
+  }
+
+  @override
+  UserDao get userDao {
+    return _userDaoInstance ??= _$UserDao(database, changeListener);
   }
 }
 
@@ -182,6 +200,202 @@ class _$WalletDao extends WalletDao {
   @override
   Future<void> insertWalletDetail(WalletDetailsDTO walletDetailsDTO) async {
     await _walletDetailsDTOInsertionAdapter.insert(
+        walletDetailsDTO, OnConflictStrategy.replace);
+  }
+}
+
+class _$RewardDao extends RewardDao {
+  _$RewardDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
+        _rewardDetailsDTOInsertionAdapter = InsertionAdapter(
+            database,
+            'Reward',
+            (RewardDetailsDTO item) => <String, Object?>{
+                  'id': item.id,
+                  'currentCredits': item.currentCredits,
+                  'memberType': item.memberType,
+                  'msisdn': item.msisdn
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<RewardDetailsDTO> _rewardDetailsDTOInsertionAdapter;
+
+  @override
+  Future<RewardDetailsDTO?> findRewardDetailById(int id) async {
+    return _queryAdapter.query('SELECT * FROM Reward WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => RewardDetailsDTO(
+            currentCredits: row['currentCredits'] as int,
+            memberType: row['memberType'] as String,
+            msisdn: row['msisdn'] as String,
+            id: row['id'] as int),
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<RewardDetailsDTO>> findAllRewardDetails() async {
+    return _queryAdapter.queryList('SELECT * FROM Reward',
+        mapper: (Map<String, Object?> row) => RewardDetailsDTO(
+            currentCredits: row['currentCredits'] as int,
+            memberType: row['memberType'] as String,
+            msisdn: row['msisdn'] as String,
+            id: row['id'] as int));
+  }
+
+  @override
+  Stream<List<RewardDetailsDTO>> findAllRewardDetailsAsStream() {
+    return _queryAdapter.queryListStream('SELECT * FROM Reward',
+        mapper: (Map<String, Object?> row) => RewardDetailsDTO(
+            currentCredits: row['currentCredits'] as int,
+            memberType: row['memberType'] as String,
+            msisdn: row['msisdn'] as String,
+            id: row['id'] as int),
+        queryableName: 'Reward',
+        isView: false);
+  }
+
+  @override
+  Future<void> insertRewardDetail(RewardDetailsDTO walletDetailsDTO) async {
+    await _rewardDetailsDTOInsertionAdapter.insert(
+        walletDetailsDTO, OnConflictStrategy.replace);
+  }
+}
+
+class _$UserDao extends UserDao {
+  _$UserDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
+        _userDetailsDTOInsertionAdapter = InsertionAdapter(
+            database,
+            'User',
+            (UserDetailsDTO item) => <String, Object?>{
+                  'id': item.id,
+                  'profileImage': item.profileImage,
+                  'dob': _dateTimeConverter.encode(item.dob),
+                  'isEmailVerified': item.isEmailVerified ? 1 : 0,
+                  'dobDateFormat': item.dobDateFormat,
+                  'msisdn': item.msisdn,
+                  'accCode': item.accCode,
+                  'kycApproved': item.kycApproved,
+                  'userType': item.userType,
+                  'isNomineeAdded': item.isNomineeAdded ? 1 : 0,
+                  'checkUpdate': item.checkUpdate,
+                  'isPinSet': item.isPinSet ? 1 : 0,
+                  'isRaffle': item.isRaffle ? 1 : 0,
+                  'nfcCardNo': item.nfcCardNo,
+                  'userFullName': item.userFullName,
+                  'isSahayatri': item.isSahayatri ? 1 : 0,
+                  'qrPayload': item.qrPayload,
+                  'gender': item.gender,
+                  'email': item.email,
+                  'isSahayatriEnabled': item.isSahayatriEnabled ? 1 : 0,
+                  'walletType': item.walletType
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<UserDetailsDTO> _userDetailsDTOInsertionAdapter;
+
+  @override
+  Future<UserDetailsDTO?> findUserDetailById(int id) async {
+    return _queryAdapter.query('SELECT * FROM User WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => UserDetailsDTO(
+            profileImage: row['profileImage'] as String,
+            dob: _dateTimeConverter.decode(row['dob'] as int),
+            isEmailVerified: (row['isEmailVerified'] as int) != 0,
+            dobDateFormat: row['dobDateFormat'] as String,
+            msisdn: row['msisdn'] as String,
+            accCode: row['accCode'] as String,
+            kycApproved: row['kycApproved'] as String,
+            userType: row['userType'] as String,
+            isNomineeAdded: (row['isNomineeAdded'] as int) != 0,
+            checkUpdate: row['checkUpdate'] as String,
+            isPinSet: (row['isPinSet'] as int) != 0,
+            isRaffle: (row['isRaffle'] as int) != 0,
+            nfcCardNo: row['nfcCardNo'] as String,
+            userFullName: row['userFullName'] as String,
+            isSahayatri: (row['isSahayatri'] as int) != 0,
+            qrPayload: row['qrPayload'] as String,
+            gender: row['gender'] as String,
+            email: row['email'] as String,
+            isSahayatriEnabled: (row['isSahayatriEnabled'] as int) != 0,
+            walletType: row['walletType'] as String,
+            id: row['id'] as int),
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<UserDetailsDTO>> findAllUserDetails() async {
+    return _queryAdapter.queryList('SELECT * FROM User',
+        mapper: (Map<String, Object?> row) => UserDetailsDTO(
+            profileImage: row['profileImage'] as String,
+            dob: _dateTimeConverter.decode(row['dob'] as int),
+            isEmailVerified: (row['isEmailVerified'] as int) != 0,
+            dobDateFormat: row['dobDateFormat'] as String,
+            msisdn: row['msisdn'] as String,
+            accCode: row['accCode'] as String,
+            kycApproved: row['kycApproved'] as String,
+            userType: row['userType'] as String,
+            isNomineeAdded: (row['isNomineeAdded'] as int) != 0,
+            checkUpdate: row['checkUpdate'] as String,
+            isPinSet: (row['isPinSet'] as int) != 0,
+            isRaffle: (row['isRaffle'] as int) != 0,
+            nfcCardNo: row['nfcCardNo'] as String,
+            userFullName: row['userFullName'] as String,
+            isSahayatri: (row['isSahayatri'] as int) != 0,
+            qrPayload: row['qrPayload'] as String,
+            gender: row['gender'] as String,
+            email: row['email'] as String,
+            isSahayatriEnabled: (row['isSahayatriEnabled'] as int) != 0,
+            walletType: row['walletType'] as String,
+            id: row['id'] as int));
+  }
+
+  @override
+  Stream<List<UserDetailsDTO>> findAllUserDetailsAsStream() {
+    return _queryAdapter.queryListStream('SELECT * FROM User',
+        mapper: (Map<String, Object?> row) => UserDetailsDTO(
+            profileImage: row['profileImage'] as String,
+            dob: _dateTimeConverter.decode(row['dob'] as int),
+            isEmailVerified: (row['isEmailVerified'] as int) != 0,
+            dobDateFormat: row['dobDateFormat'] as String,
+            msisdn: row['msisdn'] as String,
+            accCode: row['accCode'] as String,
+            kycApproved: row['kycApproved'] as String,
+            userType: row['userType'] as String,
+            isNomineeAdded: (row['isNomineeAdded'] as int) != 0,
+            checkUpdate: row['checkUpdate'] as String,
+            isPinSet: (row['isPinSet'] as int) != 0,
+            isRaffle: (row['isRaffle'] as int) != 0,
+            nfcCardNo: row['nfcCardNo'] as String,
+            userFullName: row['userFullName'] as String,
+            isSahayatri: (row['isSahayatri'] as int) != 0,
+            qrPayload: row['qrPayload'] as String,
+            gender: row['gender'] as String,
+            email: row['email'] as String,
+            isSahayatriEnabled: (row['isSahayatriEnabled'] as int) != 0,
+            walletType: row['walletType'] as String,
+            id: row['id'] as int),
+        queryableName: 'User',
+        isView: false);
+  }
+
+  @override
+  Future<void> insertUserDetail(UserDetailsDTO walletDetailsDTO) async {
+    await _userDetailsDTOInsertionAdapter.insert(
         walletDetailsDTO, OnConflictStrategy.replace);
   }
 }

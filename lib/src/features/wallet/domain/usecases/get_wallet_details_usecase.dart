@@ -12,5 +12,5 @@ class GetWalletDetailsUsecase extends UseCase<List<WalletDetails>, Unit> {
       : _repository = repository;
   @override
   TaskEither<String, List<WalletDetails>> call(Unit params) =>
-      _repository.findAllWalletDetails();
+      _repository.findAll();
 }

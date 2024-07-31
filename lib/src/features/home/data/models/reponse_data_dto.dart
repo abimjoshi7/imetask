@@ -4,7 +4,7 @@ import 'package:imepay/src/features/features.dart';
 class ResponseDataDTO extends Equatable {
   final WalletDetailsDTO walletDetails;
   final RewardDetailsDTO rewardDetails;
-  final UserInfoDTO userInfo;
+  final UserDetailsDTO userInfo;
   final MenuDetailsDTO menuDetails;
 
   const ResponseDataDTO({
@@ -18,7 +18,7 @@ class ResponseDataDTO extends Equatable {
       ResponseDataDTO(
         walletDetails: WalletDetailsDTO.fromJson(json["WalletDetails"]),
         rewardDetails: RewardDetailsDTO.fromJson(json["RewardDetails"]),
-        userInfo: UserInfoDTO.fromJson(json["UserInfo"]),
+        userInfo: UserDetailsDTO.fromJson(json["UserInfo"]),
         menuDetails: MenuDetailsDTO.fromJson(json["MenuDetails"]),
       );
 

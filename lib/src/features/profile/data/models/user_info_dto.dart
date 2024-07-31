@@ -1,51 +1,36 @@
-import 'package:equatable/equatable.dart';
+import 'package:floor/floor.dart';
+import 'package:imepay/src/features/profile/domain/domain.dart';
 
-class UserInfoDTO extends Equatable {
-  final String profileImage;
-  final DateTime dob;
-  final bool isEmailVerified;
-  final String dobDateFormat;
-  final String msisdn;
-  final String accCode;
-  final String kycApproved;
-  final String userType;
-  final bool isNomineeAdded;
-  final String checkUpdate;
-  final bool isPinSet;
-  final bool isRaffle;
-  final String nfcCardNo;
-  final String userFullName;
-  final bool isSahayatri;
-  final String qrPayload;
-  final String gender;
-  final String email;
-  final bool isSahayatriEnabled;
-  final String walletType;
+@Entity(tableName: 'User')
+class UserDetailsDTO extends UserDetails {
+  @primaryKey
+  final int id;
 
-  const UserInfoDTO({
-    required this.profileImage,
-    required this.dob,
-    required this.isEmailVerified,
-    required this.dobDateFormat,
-    required this.msisdn,
-    required this.accCode,
-    required this.kycApproved,
-    required this.userType,
-    required this.isNomineeAdded,
-    required this.checkUpdate,
-    required this.isPinSet,
-    required this.isRaffle,
-    required this.nfcCardNo,
-    required this.userFullName,
-    required this.isSahayatri,
-    required this.qrPayload,
-    required this.gender,
-    required this.email,
-    required this.isSahayatriEnabled,
-    required this.walletType,
+  const UserDetailsDTO({
+    required super.profileImage,
+    required super.dob,
+    required super.isEmailVerified,
+    required super.dobDateFormat,
+    required super.msisdn,
+    required super.accCode,
+    required super.kycApproved,
+    required super.userType,
+    required super.isNomineeAdded,
+    required super.checkUpdate,
+    required super.isPinSet,
+    required super.isRaffle,
+    required super.nfcCardNo,
+    required super.userFullName,
+    required super.isSahayatri,
+    required super.qrPayload,
+    required super.gender,
+    required super.email,
+    required super.isSahayatriEnabled,
+    required super.walletType,
+    this.id = 1,
   });
 
-  factory UserInfoDTO.fromJson(Map<String, dynamic> json) => UserInfoDTO(
+  factory UserDetailsDTO.fromJson(Map<String, dynamic> json) => UserDetailsDTO(
         profileImage: json["ProfileImage"],
         dob: DateTime.parse(json["Dob"]),
         isEmailVerified: json["IsEmailVerified"],
@@ -115,6 +100,7 @@ class UserInfoDTO extends Equatable {
       email,
       isSahayatriEnabled,
       walletType,
+      id,
     ];
   }
 }

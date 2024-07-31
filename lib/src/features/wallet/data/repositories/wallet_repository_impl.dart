@@ -11,22 +11,19 @@ class WalletRepositoryImpl implements WalletRepository {
       : _walletLocalDs = walletLocalDs;
 
   @override
-  TaskEither<String, List<WalletDetails>> findAllWalletDetails() =>
-      TaskEither.tryCatch(
+  TaskEither<String, List<WalletDetails>> findAll() => TaskEither.tryCatch(
         () async => _walletLocalDs.findAllWalletDetails(),
         (error, _) => error.toString(),
       );
 
   @override
-  TaskEither<String, WalletDetails?> findWalletDetailById(int id) =>
-      TaskEither.tryCatch(
+  TaskEither<String, WalletDetails?> findById(int id) => TaskEither.tryCatch(
         () async => _walletLocalDs.findWalletDetailById(id),
         (error, _) => error.toString(),
       );
 
   @override
-  TaskEither<String, void> insertWalletDetail(WalletDetails params) =>
-      TaskEither.tryCatch(
+  TaskEither<String, void> insert(WalletDetails params) => TaskEither.tryCatch(
         () => _walletLocalDs.insertWalletDetail(
           WalletDetailsDTO.fromJson(
             params.toMap(),

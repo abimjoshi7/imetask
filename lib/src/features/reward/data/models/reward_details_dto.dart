@@ -1,14 +1,17 @@
-import 'package:equatable/equatable.dart';
+import 'package:floor/floor.dart';
 
-class RewardDetailsDTO extends Equatable {
-  final int currentCredits;
-  final String memberType;
-  final String msisdn;
+import '../../domain/entities/entities.dart';
+
+@Entity(tableName: 'Reward')
+class RewardDetailsDTO extends RewardDetails {
+  @primaryKey
+  final int id;
 
   const RewardDetailsDTO({
-    required this.currentCredits,
-    required this.memberType,
-    required this.msisdn,
+    required super.currentCredits,
+    required super.memberType,
+    required super.msisdn,
+    this.id = 1,
   });
 
   factory RewardDetailsDTO.fromJson(Map<String, dynamic> json) =>
@@ -25,5 +28,5 @@ class RewardDetailsDTO extends Equatable {
       };
 
   @override
-  List<Object> get props => [currentCredits, memberType, msisdn];
+  List<Object> get props => [currentCredits, memberType, msisdn, id];
 }

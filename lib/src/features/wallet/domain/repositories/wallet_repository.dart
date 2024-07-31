@@ -1,9 +1,5 @@
-import 'package:fpdart/fpdart.dart' show TaskEither;
+import 'package:imepay/src/core/core.dart';
 
 import '../../../features.dart';
 
-abstract class WalletRepository {
-  TaskEither<String, List<WalletDetails>> findAllWalletDetails();
-  TaskEither<String, WalletDetails?> findWalletDetailById(int id);
-  TaskEither<String, void> insertWalletDetail(WalletDetails params);
-}
+abstract class WalletRepository extends BaseRepository<WalletDetails> {}

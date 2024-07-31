@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 import 'package:imepay/src/features/home/data/models/category_content_dto.dart';
 
 class MenuDTO extends Equatable {

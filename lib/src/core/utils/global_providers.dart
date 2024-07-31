@@ -4,6 +4,9 @@ import 'package:imepay/src/core/core.dart';
 import 'package:imepay/src/features/home/presentation/cubit/home_cubit.dart';
 import 'package:imepay/src/features/wallet/presentation/cubit/wallet_cubit.dart';
 
+import '../../features/profile/presentation/cubit/user_cubit.dart';
+import '../../features/reward/presentation/cubit/reward_cubit.dart';
+
 class GlobalProviders extends StatelessWidget {
   const GlobalProviders({
     super.key,
@@ -26,6 +29,20 @@ class GlobalProviders extends StatelessWidget {
             getWalletDetailUsecase: locator(),
             getWalletDetailsUsecase: locator(),
             insertWalletDetailUsecase: locator(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => RewardCubit(
+            getRewardDetailUsecase: locator(),
+            getRewardDetailsUsecase: locator(),
+            insertRewardDetailUsecase: locator(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => UserCubit(
+            getUserDetailUsecase: locator(),
+            getUserDetailsUsecase: locator(),
+            insertUserDetailUsecase: locator(),
           ),
         ),
       ],

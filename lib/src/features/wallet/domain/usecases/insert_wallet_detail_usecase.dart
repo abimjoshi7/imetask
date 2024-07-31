@@ -12,5 +12,5 @@ class InsertWalletDetailUsecase extends UseCase<void, WalletDetails> {
       : _repository = repository;
   @override
   TaskEither<String, void> call(WalletDetails params) =>
-      _repository.insertWalletDetail(params);
+      _repository.insert(params);
 }
