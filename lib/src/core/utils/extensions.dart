@@ -173,3 +173,11 @@ extension BuildContextEntension<T> on BuildContext {
     );
   }
 }
+
+extension UrlValidator on String {
+  bool isValidUrl() {
+    const urlPattern = r'^(https?|ftp)://[^\s/$.?#].[^\s]*$';
+    final result = RegExp(urlPattern, caseSensitive: false).hasMatch(this);
+    return result;
+  }
+}

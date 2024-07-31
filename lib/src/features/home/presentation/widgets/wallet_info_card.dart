@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:imepay/src/core/utils/context_ext.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:imepay/src/core/utils/extensions.dart';
 import 'package:imepay/src/core/utils/color_palette.dart';
+import 'package:imepay/src/features/features.dart';
+import 'package:imepay/src/features/wallet/wallet.dart';
 
 class WalletInfoCard extends StatelessWidget {
   const WalletInfoCard({super.key});
@@ -40,16 +43,20 @@ class WalletInfoCard extends StatelessWidget {
                 ),
                 Text.rich(
                   TextSpan(
-                    text: "0",
+                    text: switch (context.watch<WalletCubit>().state) {
+                      WalletSuccess(:final walletDetails) =>
+                        walletDetails.first.amount,
+                      _ => "0",
+                    },
                     style: context.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
-                    children: [
-                      TextSpan(
-                        text: ".00",
-                        style: context.titleMedium,
-                      ),
-                    ],
+                    // children: [
+                    //   TextSpan(
+                    //     text: ".00",
+                    //     style: context.titleMedium,
+                    //   ),
+                    // ],
                   ),
                 )
               ],
@@ -78,7 +85,11 @@ class WalletInfoCard extends StatelessWidget {
                 ),
                 Text.rich(
                   TextSpan(
-                    text: "+0.00",
+                    text: "+${switch (context.watch<WalletCubit>().state) {
+                      WalletSuccess(:final walletDetails) =>
+                        walletDetails.first.interestAmount,
+                      _ => "0"
+                    }}",
                     style: context.titleSmall?.copyWith(
                       color: kClrGreen,
                     ),

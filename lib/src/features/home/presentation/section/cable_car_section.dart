@@ -6,11 +6,11 @@ class CableCarSection extends StatelessWidget {
   const CableCarSection({super.key});
 
   @override
-  Widget build(BuildContext context) => const SectionView(
+  Widget build(BuildContext context) => SectionView(
         label: "Cable Car",
         child: CustomGridView(
           itemCount: 5,
-          child: IconText(
+          itemBuilder: (p0, p1) => IconText(
             title: "Cable Car",
             icon: CircleAvatar(),
           ),

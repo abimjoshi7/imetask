@@ -2,8 +2,6 @@ import 'package:fpdart/fpdart.dart' show TaskEither;
 import 'package:injectable/injectable.dart';
 
 import '../../../features.dart';
-import '../../domain/domain.dart';
-import '../datasources/local/user_local_ds.dart';
 
 @LazySingleton(as: UserRepository)
 class UserRepositoryImpl implements UserRepository {

@@ -30,3 +30,10 @@ class UnknownException implements Exception {
   @override
   String toString() => message;
 }
+
+class DatabaseException implements Exception {
+  final String message;
+  DatabaseException(this.message);
+  @override
+  String toString() => message;
+}

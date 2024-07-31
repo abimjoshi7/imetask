@@ -20,11 +20,11 @@ class WalletCubit extends Cubit<WalletState> {
   final InsertWalletDetailUsecase _insertWalletDetailUsecase;
 
   Future<void> getWalletDetail(int id) async {
-    emit(WalletLoading());
     var walletDetails = <WalletDetails>[];
     if (state is WalletSuccess) {
       walletDetails.addAll((state as WalletSuccess).walletDetails);
     }
+    emit(WalletLoading());
     final result = await _getWalletDetailUsecase(id).run();
     result.fold(
       (l) => emit(WalletFailure(l)),
@@ -51,7 +51,8 @@ class WalletCubit extends Cubit<WalletState> {
     final result = await _insertWalletDetailUsecase(walletDetails).run();
     result.fold(
       (l) => emit(WalletFailure(l)),
-      (r) => emit(const WalletSuccess()),
+      (_) => _,
     );
+    await getWalletDetails();
   }
 }

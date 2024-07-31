@@ -6,7 +6,6 @@ class WalletDetails extends Equatable {
   final String interestAmount;
   final String totalCreditPoints;
   final DateTime interestDate;
-  final String? status;
 
   const WalletDetails({
     required this.memberType,
@@ -14,18 +13,16 @@ class WalletDetails extends Equatable {
     required this.interestAmount,
     required this.totalCreditPoints,
     required this.interestDate,
-    this.status,
   });
 
   @override
-  List<Object?> get props {
+  List<Object> get props {
     return [
       memberType,
       amount,
       interestAmount,
       totalCreditPoints,
       interestDate,
-      status,
     ];
   }
 }
@@ -39,7 +36,6 @@ extension WalletDetailsX on WalletDetails {
       "TotalCreditPoints": totalCreditPoints,
       "InterestDate":
           "${interestDate.year.toString().padLeft(4, '0')}-${interestDate.month.toString().padLeft(2, '0')}-${interestDate.day.toString().padLeft(2, '0')}",
-      "Status": status,
     };
   }
 }

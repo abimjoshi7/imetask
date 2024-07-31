@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:imepay/src/core/utils/context_ext.dart';
+import 'package:imepay/src/core/utils/extensions.dart';
 import 'package:imepay/src/core/utils/color_palette.dart';
 
 class IconText extends StatelessWidget {

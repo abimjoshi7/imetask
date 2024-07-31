@@ -1,10 +1,7 @@
 import 'package:fpdart/fpdart.dart' show TaskEither;
-import 'package:imepay/src/features/reward/data/datasources/datasources.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../features.dart';
-import '../../domain/entities/entities.dart';
-import '../../domain/repositories/repositories.dart';
 
 @LazySingleton(as: RewardRepository)
 class RewardRepositoryImpl implements RewardRepository {

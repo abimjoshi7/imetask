@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:imepay/src/core/utils/context_ext.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:imepay/src/core/utils/extensions.dart';
+import 'package:imepay/src/features/features.dart';
 
 class MembershipCard extends StatelessWidget {
   const MembershipCard({super.key});
@@ -19,16 +21,28 @@ class MembershipCard extends StatelessWidget {
               Row(
                 children: [
                   const Icon(
-                    Icons.markunread_mailbox_rounded,
+                    Icons.lightbulb_circle,
                     size: 10,
                   ),
+                  const SizedBox(
+                    width: 2,
+                  ),
                   Text(
-                    '0',
+                    switch (context.watch<RewardCubit>().state) {
+                      RewardSuccess(:final rewardDetails) =>
+                        rewardDetails.first.currentCredits.toString(),
+                      _ => "0",
+                    },
                     style: context.labelLarge,
                   ),
                 ],
               ),
-              Text("data",
+              Text(
+                  switch (context.watch<RewardCubit>().state) {
+                    RewardSuccess(:final rewardDetails) =>
+                      rewardDetails.first.memberType,
+                    _ => "0",
+                  },
                   style: context.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   )),

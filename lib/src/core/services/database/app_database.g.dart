@@ -78,13 +78,19 @@ class _$AppDatabase extends AppDatabase {
 
   UserDao? _userDaoInstance;
 
+  HomeMenuDao? _homeMenuDaoInstance;
+
+  MenuItemDao? _menuItemDaoInstance;
+
+  SubMenuItemDao? _subMenuItemDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
     Callback? callback,
   ]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
-      version: 2,
+      version: 1,
       onConfigure: (database) async {
         await database.execute('PRAGMA foreign_keys = ON');
         await callback?.onConfigure?.call(database);
@@ -100,11 +106,23 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Wallet` (`id` INTEGER NOT NULL, `memberType` TEXT NOT NULL, `amount` TEXT NOT NULL, `interestAmount` TEXT NOT NULL, `totalCreditPoints` TEXT NOT NULL, `interestDate` INTEGER NOT NULL, `status` TEXT, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `Wallet` (`id` INTEGER NOT NULL, `memberType` TEXT NOT NULL, `amount` TEXT NOT NULL, `interestAmount` TEXT NOT NULL, `totalCreditPoints` TEXT NOT NULL, `interestDate` INTEGER NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Reward` (`id` INTEGER NOT NULL, `currentCredits` INTEGER NOT NULL, `memberType` TEXT NOT NULL, `msisdn` TEXT NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `User` (`id` INTEGER NOT NULL, `profileImage` TEXT NOT NULL, `dob` INTEGER NOT NULL, `isEmailVerified` INTEGER NOT NULL, `dobDateFormat` TEXT NOT NULL, `msisdn` TEXT NOT NULL, `accCode` TEXT NOT NULL, `kycApproved` TEXT NOT NULL, `userType` TEXT NOT NULL, `isNomineeAdded` INTEGER NOT NULL, `checkUpdate` TEXT NOT NULL, `isPinSet` INTEGER NOT NULL, `isRaffle` INTEGER NOT NULL, `nfcCardNo` TEXT NOT NULL, `userFullName` TEXT NOT NULL, `isSahayatri` INTEGER NOT NULL, `qrPayload` TEXT NOT NULL, `gender` TEXT NOT NULL, `email` TEXT NOT NULL, `isSahayatriEnabled` INTEGER NOT NULL, `walletType` TEXT NOT NULL, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `HomeMenu` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `categoryTitleEng` TEXT NOT NULL, `categoryTitle` TEXT NOT NULL, `displayOrder` INTEGER NOT NULL, `categoryTheme` INTEGER NOT NULL, `promotionalTxt` TEXT NOT NULL)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `MenuItem` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `homeMenuId` INTEGER NOT NULL, `title` TEXT NOT NULL, `titleEng` TEXT NOT NULL, `icon` TEXT NOT NULL, `redirectionType` TEXT NOT NULL, `redirectionModule` TEXT NOT NULL, `redirectionValue` TEXT NOT NULL, `displayOrder` INTEGER NOT NULL, `isDisabled` INTEGER NOT NULL, `disableMsg` TEXT NOT NULL, `promotionalTxt` TEXT NOT NULL)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `SubMenuItem` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `menuItemId` INTEGER NOT NULL, `title` TEXT NOT NULL, `titleEng` TEXT NOT NULL, `icon` TEXT NOT NULL, `redirectionType` TEXT NOT NULL, `redirectionModule` TEXT NOT NULL, `redirectionValue` TEXT NOT NULL, `displayOrder` INTEGER NOT NULL, `isDisabled` INTEGER NOT NULL, `disableMsg` TEXT NOT NULL, `promotionalTxt` TEXT NOT NULL)');
+        await database.execute(
+            'CREATE UNIQUE INDEX `index_HomeMenu_categoryTitle` ON `HomeMenu` (`categoryTitle`)');
+        await database.execute(
+            'CREATE UNIQUE INDEX `index_MenuItem_title` ON `MenuItem` (`title`)');
+        await database.execute(
+            'CREATE UNIQUE INDEX `index_SubMenuItem_title` ON `SubMenuItem` (`title`)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -126,6 +144,22 @@ class _$AppDatabase extends AppDatabase {
   UserDao get userDao {
     return _userDaoInstance ??= _$UserDao(database, changeListener);
   }
+
+  @override
+  HomeMenuDao get homeMenuDao {
+    return _homeMenuDaoInstance ??= _$HomeMenuDao(database, changeListener);
+  }
+
+  @override
+  MenuItemDao get menuItemDao {
+    return _menuItemDaoInstance ??= _$MenuItemDao(database, changeListener);
+  }
+
+  @override
+  SubMenuItemDao get subMenuItemDao {
+    return _subMenuItemDaoInstance ??=
+        _$SubMenuItemDao(database, changeListener);
+  }
 }
 
 class _$WalletDao extends WalletDao {
@@ -142,8 +176,7 @@ class _$WalletDao extends WalletDao {
                   'amount': item.amount,
                   'interestAmount': item.interestAmount,
                   'totalCreditPoints': item.totalCreditPoints,
-                  'interestDate': _dateTimeConverter.encode(item.interestDate),
-                  'status': item.status
+                  'interestDate': _dateTimeConverter.encode(item.interestDate)
                 },
             changeListener);
 
@@ -164,7 +197,6 @@ class _$WalletDao extends WalletDao {
             totalCreditPoints: row['totalCreditPoints'] as String,
             interestDate: _dateTimeConverter.decode(row['interestDate'] as int),
             memberType: row['memberType'] as String,
-            status: row['status'] as String?,
             id: row['id'] as int),
         arguments: [id]);
   }
@@ -178,7 +210,6 @@ class _$WalletDao extends WalletDao {
             totalCreditPoints: row['totalCreditPoints'] as String,
             interestDate: _dateTimeConverter.decode(row['interestDate'] as int),
             memberType: row['memberType'] as String,
-            status: row['status'] as String?,
             id: row['id'] as int));
   }
 
@@ -191,7 +222,6 @@ class _$WalletDao extends WalletDao {
             totalCreditPoints: row['totalCreditPoints'] as String,
             interestDate: _dateTimeConverter.decode(row['interestDate'] as int),
             memberType: row['memberType'] as String,
-            status: row['status'] as String?,
             id: row['id'] as int),
         queryableName: 'Wallet',
         isView: false);
@@ -397,6 +427,212 @@ class _$UserDao extends UserDao {
   Future<void> insertUserDetail(UserDetailsDTO walletDetailsDTO) async {
     await _userDetailsDTOInsertionAdapter.insert(
         walletDetailsDTO, OnConflictStrategy.replace);
+  }
+}
+
+class _$HomeMenuDao extends HomeMenuDao {
+  _$HomeMenuDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _homeMenuInsertionAdapter = InsertionAdapter(
+            database,
+            'HomeMenu',
+            (HomeMenu item) => <String, Object?>{
+                  'id': item.id,
+                  'categoryTitleEng': item.categoryTitleEng,
+                  'categoryTitle': item.categoryTitle,
+                  'displayOrder': item.displayOrder,
+                  'categoryTheme': item.categoryTheme,
+                  'promotionalTxt': item.promotionalTxt
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<HomeMenu> _homeMenuInsertionAdapter;
+
+  @override
+  Future<List<HomeMenu>> getAllHomeMenus() async {
+    return _queryAdapter.queryList('SELECT * FROM HomeMenu',
+        mapper: (Map<String, Object?> row) => HomeMenu(
+            id: row['id'] as int,
+            categoryTitleEng: row['categoryTitleEng'] as String,
+            categoryTitle: row['categoryTitle'] as String,
+            displayOrder: row['displayOrder'] as int,
+            categoryTheme: row['categoryTheme'] as int,
+            promotionalTxt: row['promotionalTxt'] as String));
+  }
+
+  @override
+  Future<void> insertHomeMenu(HomeMenu homeMenu) async {
+    await _homeMenuInsertionAdapter.insert(homeMenu, OnConflictStrategy.abort);
+  }
+}
+
+class _$MenuItemDao extends MenuItemDao {
+  _$MenuItemDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _menuItemInsertionAdapter = InsertionAdapter(
+            database,
+            'MenuItem',
+            (MenuItem item) => <String, Object?>{
+                  'id': item.id,
+                  'homeMenuId': item.homeMenuId,
+                  'title': item.title,
+                  'titleEng': item.titleEng,
+                  'icon': item.icon,
+                  'redirectionType': item.redirectionType,
+                  'redirectionModule': item.redirectionModule,
+                  'redirectionValue': item.redirectionValue,
+                  'displayOrder': item.displayOrder,
+                  'isDisabled': item.isDisabled ? 1 : 0,
+                  'disableMsg': item.disableMsg,
+                  'promotionalTxt': item.promotionalTxt
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<MenuItem> _menuItemInsertionAdapter;
+
+  @override
+  Future<List<MenuItem>> getAllMenuItems() async {
+    return _queryAdapter.queryList('SELECT * FROM MenuItem',
+        mapper: (Map<String, Object?> row) => MenuItem(
+            id: row['id'] as int?,
+            homeMenuId: row['homeMenuId'] as int,
+            title: row['title'] as String,
+            titleEng: row['titleEng'] as String,
+            icon: row['icon'] as String,
+            redirectionType: row['redirectionType'] as String,
+            redirectionModule: row['redirectionModule'] as String,
+            redirectionValue: row['redirectionValue'] as String,
+            displayOrder: row['displayOrder'] as int,
+            isDisabled: (row['isDisabled'] as int) != 0,
+            disableMsg: row['disableMsg'] as String,
+            promotionalTxt: row['promotionalTxt'] as String));
+  }
+
+  @override
+  Future<List<MenuItem>> getMenuItemsByHomeMenuId(int homeMenuId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM MenuItem WHERE homeMenuId = ?1',
+        mapper: (Map<String, Object?> row) => MenuItem(
+            id: row['id'] as int?,
+            homeMenuId: row['homeMenuId'] as int,
+            title: row['title'] as String,
+            titleEng: row['titleEng'] as String,
+            icon: row['icon'] as String,
+            redirectionType: row['redirectionType'] as String,
+            redirectionModule: row['redirectionModule'] as String,
+            redirectionValue: row['redirectionValue'] as String,
+            displayOrder: row['displayOrder'] as int,
+            isDisabled: (row['isDisabled'] as int) != 0,
+            disableMsg: row['disableMsg'] as String,
+            promotionalTxt: row['promotionalTxt'] as String),
+        arguments: [homeMenuId]);
+  }
+
+  @override
+  Future<int?> getMenuItemId(
+    int homeMenuId,
+    String title,
+  ) async {
+    return _queryAdapter.query(
+        'SELECT id FROM MenuItem WHERE homeMenuId = ?1 AND title = ?2',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [homeMenuId, title]);
+  }
+
+  @override
+  Future<void> insertMenuItem(MenuItem menuItem) async {
+    await _menuItemInsertionAdapter.insert(menuItem, OnConflictStrategy.abort);
+  }
+}
+
+class _$SubMenuItemDao extends SubMenuItemDao {
+  _$SubMenuItemDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _subMenuItemInsertionAdapter = InsertionAdapter(
+            database,
+            'SubMenuItem',
+            (SubMenuItem item) => <String, Object?>{
+                  'id': item.id,
+                  'menuItemId': item.menuItemId,
+                  'title': item.title,
+                  'titleEng': item.titleEng,
+                  'icon': item.icon,
+                  'redirectionType': item.redirectionType,
+                  'redirectionModule': item.redirectionModule,
+                  'redirectionValue': item.redirectionValue,
+                  'displayOrder': item.displayOrder,
+                  'isDisabled': item.isDisabled ? 1 : 0,
+                  'disableMsg': item.disableMsg,
+                  'promotionalTxt': item.promotionalTxt
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<SubMenuItem> _subMenuItemInsertionAdapter;
+
+  @override
+  Future<List<SubMenuItem>> getAllSubMenuItems() async {
+    return _queryAdapter.queryList('SELECT * FROM SubMenuItem',
+        mapper: (Map<String, Object?> row) => SubMenuItem(
+            id: row['id'] as int?,
+            menuItemId: row['menuItemId'] as int,
+            title: row['title'] as String,
+            titleEng: row['titleEng'] as String,
+            icon: row['icon'] as String,
+            redirectionType: row['redirectionType'] as String,
+            redirectionModule: row['redirectionModule'] as String,
+            redirectionValue: row['redirectionValue'] as String,
+            displayOrder: row['displayOrder'] as int,
+            isDisabled: (row['isDisabled'] as int) != 0,
+            disableMsg: row['disableMsg'] as String,
+            promotionalTxt: row['promotionalTxt'] as String));
+  }
+
+  @override
+  Future<List<SubMenuItem>> getSubMenuItemsByMenuItemId(
+      String menuItemId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM SubMenuItem WHERE menuItemId = ?1',
+        mapper: (Map<String, Object?> row) => SubMenuItem(
+            id: row['id'] as int?,
+            menuItemId: row['menuItemId'] as int,
+            title: row['title'] as String,
+            titleEng: row['titleEng'] as String,
+            icon: row['icon'] as String,
+            redirectionType: row['redirectionType'] as String,
+            redirectionModule: row['redirectionModule'] as String,
+            redirectionValue: row['redirectionValue'] as String,
+            displayOrder: row['displayOrder'] as int,
+            isDisabled: (row['isDisabled'] as int) != 0,
+            disableMsg: row['disableMsg'] as String,
+            promotionalTxt: row['promotionalTxt'] as String),
+        arguments: [menuItemId]);
+  }
+
+  @override
+  Future<void> insertSubMenuItem(SubMenuItem subMenuItem) async {
+    await _subMenuItemInsertionAdapter.insert(
+        subMenuItem, OnConflictStrategy.abort);
   }
 }
 

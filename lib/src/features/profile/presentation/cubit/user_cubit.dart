@@ -21,11 +21,11 @@ class UserCubit extends Cubit<UserState> {
   final InsertUserDetailUsecase _insertUserDetailUsecase;
 
   Future<void> getUserDetail(int id) async {
-    emit(UserLoading());
     var userDetails = <UserDetails>[];
     if (state is UserSuccess) {
       userDetails.addAll((state as UserSuccess).userDetails);
     }
+    emit(UserLoading());
     final result = await _getUserDetailUsecase(id).run();
     result.fold(
       (l) => emit(UserFailure(l)),
@@ -52,7 +52,9 @@ class UserCubit extends Cubit<UserState> {
     final result = await _insertUserDetailUsecase(userDetails).run();
     result.fold(
       (l) => emit(UserFailure(l)),
-      (r) => emit(const UserSuccess()),
+      (_) => _,
     );
+
+    await getUserDetails();
   }
 }

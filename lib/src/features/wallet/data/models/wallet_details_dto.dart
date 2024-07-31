@@ -9,7 +9,6 @@ class WalletDetailsDTO extends WalletDetails {
     required super.totalCreditPoints,
     required super.interestDate,
     required super.memberType,
-    required super.status,
     this.id = 1,
   });
 
@@ -23,8 +22,6 @@ class WalletDetailsDTO extends WalletDetails {
         interestAmount: json["InterestAmount"],
         totalCreditPoints: json["TotalCreditPoints"],
         interestDate: DateTime.parse(json["InterestDate"]),
-        status: json["Status"],
-        id: json["id"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -34,19 +31,16 @@ class WalletDetailsDTO extends WalletDetails {
         "TotalCreditPoints": totalCreditPoints,
         "InterestDate":
             "${interestDate.year.toString().padLeft(4, '0')}-${interestDate.month.toString().padLeft(2, '0')}-${interestDate.day.toString().padLeft(2, '0')}",
-        "Status": status,
-        "id": id,
       };
 
   @override
-  List<Object?> get props {
+  List<Object> get props {
     return [
       memberType,
       amount,
       interestAmount,
       totalCreditPoints,
       interestDate,
-      status,
       id,
     ];
   }

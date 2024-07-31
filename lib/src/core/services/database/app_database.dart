@@ -5,19 +5,23 @@ import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
 import '../../../features/features.dart';
-import '../../../features/profile/data/datasources/local/user_dao.dart';
-import '../../../features/reward/data/datasources/datasources.dart';
 
 part 'app_database.g.dart';
 
 @TypeConverters([DateTimeConverter])
-@Database(version: 2, entities: [
+@Database(version: 1, entities: [
   WalletDetailsDTO,
   RewardDetailsDTO,
   UserDetailsDTO,
+  HomeMenu,
+  MenuItem,
+  SubMenuItem,
 ])
 abstract class AppDatabase extends FloorDatabase {
   WalletDao get walletDao;
   RewardDao get rewardDao;
   UserDao get userDao;
+  HomeMenuDao get homeMenuDao;
+  MenuItemDao get menuItemDao;
+  SubMenuItemDao get subMenuItemDao;
 }

@@ -22,11 +22,11 @@ class RewardCubit extends Cubit<RewardState> {
   final InsertRewardDetailUsecase _insertRewardDetailUsecase;
 
   Future<void> getRewardDetail(int id) async {
-    emit(RewardLoading());
     var rewardDetails = <RewardDetails>[];
     if (state is RewardSuccess) {
       rewardDetails.addAll((state as RewardSuccess).rewardDetails);
     }
+    emit(RewardLoading());
     final result = await _getRewardDetailUsecase(id).run();
     result.fold(
       (l) => emit(RewardFailure(l)),
@@ -53,7 +53,8 @@ class RewardCubit extends Cubit<RewardState> {
     final result = await _insertRewardDetailUsecase(rewardDetails).run();
     result.fold(
       (l) => emit(RewardFailure(l)),
-      (r) => emit(const RewardSuccess()),
+      (_) => _,
     );
+    await getRewardDetails();
   }
 }

@@ -1,5 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:imepay/src/core/utils/extensions.dart';
+import 'package:imepay/src/features/home/presentation/cubit/menu_cubit.dart';
 
 import '../widgets/widgets.dart';
 
@@ -8,9 +11,9 @@ class PromotionSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SectionView(
-        label: "Promotions",
+        label: context.watch<MenuCubit>().getMenuById(53).first.categoryTitle,
         child: CarouselSlider.builder(
-          itemCount: 5,
+          itemCount: context.watch<MenuCubit>().getCategoriesById(53).length,
           itemBuilder: (context, index, realIndex) => Column(
             children: [
               Expanded(
@@ -18,12 +21,31 @@ class PromotionSection extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.blue,
                     borderRadius: BorderRadius.circular(8),
+                    image: context
+                            .watch<MenuCubit>()
+                            .getCategoriesById(53)[index]
+                            .icon
+                            .isValidUrl()
+                        ? DecorationImage(
+                            image: NetworkImage(
+                              context
+                                  .watch<MenuCubit>()
+                                  .getCategoriesById(53)[index]
+                                  .icon,
+                            ),
+                            fit: BoxFit.cover,
+                          )
+                        : null,
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: DotIndicator(currentIndex: index, count: 5),
+                child: DotIndicator(
+                  currentIndex: index,
+                  count:
+                      context.watch<MenuCubit>().getCategoriesById(53).length,
+                ),
               ),
             ],
           ),

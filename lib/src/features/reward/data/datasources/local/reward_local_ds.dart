@@ -1,7 +1,6 @@
 import 'package:injectable/injectable.dart';
 
 import '../../../../features.dart';
-import '../datasources.dart';
 
 abstract class RewardLocalDS {
   Future<List<RewardDetailsDTO>> findAllRewardDetails();

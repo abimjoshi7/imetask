@@ -10,7 +10,7 @@ void main() async {
 
   Bloc.observer = const AppBlocObserver();
 
-  configureDependencies();
-
-  runApp(const ImePayApp());
+  await configureDependencies().then(
+    (_) => runApp(const ImePayApp()),
+  );
 }

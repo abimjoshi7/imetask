@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:imepay/src/core/core.dart';
 import 'package:imepay/src/core/utils/color_palette.dart';
+import 'package:imepay/src/features/features.dart';
+import 'package:imepay/src/features/home/presentation/cubit/menu_cubit.dart';
 
 import '../widgets/widgets.dart';
 
@@ -8,11 +12,11 @@ class ServiceSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SectionView(
-        label: "Services",
+        label: context.watch<MenuCubit>().getMenuById(21).first.categoryTitle,
         child: CustomGridView(
           aspectRatio: 1.2,
-          itemCount: 5,
-          child: IconText(
+          itemCount: context.watch<MenuCubit>().getCategoriesById(21).length,
+          itemBuilder: (p0, p1) => IconText(
             textColor: Colors.black,
             icon: Container(
               height: 50,
@@ -29,13 +33,17 @@ class ServiceSection extends StatelessWidget {
                   ],
                 ),
               ),
-              child: const Center(
-                child: Icon(
-                  Icons.account_balance_outlined,
-                ),
-              ),
+              child: context
+                      .watch<MenuCubit>()
+                      .getCategoriesById(21)[p1]
+                      .icon
+                      .isValidUrl()
+                  ? Image.network(
+                      context.watch<MenuCubit>().getCategoriesById(21)[p1].icon,
+                    )
+                  : const Icon(Icons.question_mark_rounded),
             ),
-            title: "Loan, EMI & Credit Card",
+            title: context.watch<MenuCubit>().getCategoriesById(21)[p1].title,
           ),
         ),
       );

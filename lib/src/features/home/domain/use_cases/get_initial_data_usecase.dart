@@ -3,7 +3,7 @@ import 'package:imepay/src/core/core.dart';
 import 'package:imepay/src/features/features.dart';
 import 'package:injectable/injectable.dart';
 
-@injectable
+@singleton
 class GetInitialDataUsecase extends UseCase<BaseResponseDTO, Unit> {
   final HomeRepository _repository;
 

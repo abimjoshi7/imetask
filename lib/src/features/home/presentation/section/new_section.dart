@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:imepay/src/features/home/presentation/cubit/menu_cubit.dart';
 
 import '../widgets/custom_grid_view.dart';
 import '../widgets/icon_text.dart';
@@ -9,11 +11,11 @@ class NewSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SectionView(
-        label: "What's New",
+        label: context.watch<MenuCubit>().getMenuById(51).first.categoryTitle,
         child: CustomGridView(
-          itemCount: 3,
-          child: IconText(
-            title: "Cable Car",
+          itemCount: context.watch<MenuCubit>().getCategoriesById(51).length,
+          itemBuilder: (p0, p1) => IconText(
+            title: context.watch<MenuCubit>().getCategoriesById(51)[p1].title,
             icon: Container(
               height: 40,
               width: 40,

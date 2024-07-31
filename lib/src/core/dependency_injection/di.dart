@@ -11,16 +11,14 @@ final locator = GetIt.instance;
 @InjectableInit(
   initializerName: 'initialize',
 )
-void configureDependencies() => locator.initialize();
+Future<void> configureDependencies() async => locator.initialize();
 
 @module
 abstract class CoreModule {
   @preResolve
-  Future<AppDatabase> get database =>
+  Future<AppDatabase> get database async =>
       $FloorAppDatabase.databaseBuilder('app_database.db').addMigrations(
-        [
-          migration1to2,
-        ],
+        [],
       ).build();
 
   @lazySingleton
