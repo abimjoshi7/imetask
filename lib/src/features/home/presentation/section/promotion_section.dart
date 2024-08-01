@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:imepay/src/core/services/url_launcher/url_launcher_helper.dart';
 import 'package:imepay/src/core/utils/extensions.dart';
 import 'package:imepay/src/features/home/presentation/cubit/category_cubit.dart';
 import 'package:imepay/src/features/home/presentation/cubit/menu_cubit.dart';
@@ -23,25 +24,41 @@ class PromotionSection extends StatelessWidget {
                 itemBuilder: (context, index, realIndex) => Column(
                   children: [
                     Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(8),
-                          image: context
-                                  .watch<CategoryCubit>()
-                                  .getCategoriesById(53)[index]
-                                  .icon
-                                  .isValidUrl()
-                              ? DecorationImage(
-                                  image: NetworkImage(
+                      child: GestureDetector(
+                        onTap: context
+                                .read<CategoryCubit>()
+                                .getCategoriesById(53)[index]
+                                .redirectionValue
+                                .isValidUrl()
+                            ? () {
+                                UrlLauncherHelper.launchURL(
+                                    context,
                                     context
-                                        .watch<CategoryCubit>()
+                                        .read<CategoryCubit>()
                                         .getCategoriesById(53)[index]
-                                        .icon,
-                                  ),
-                                  fit: BoxFit.cover,
-                                )
-                              : null,
+                                        .redirectionValue);
+                              }
+                            : null,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(8),
+                            image: context
+                                    .watch<CategoryCubit>()
+                                    .getCategoriesById(53)[index]
+                                    .icon
+                                    .isValidUrl()
+                                ? DecorationImage(
+                                    image: NetworkImage(
+                                      context
+                                          .watch<CategoryCubit>()
+                                          .getCategoriesById(53)[index]
+                                          .icon,
+                                    ),
+                                    fit: BoxFit.cover,
+                                  )
+                                : null,
+                          ),
                         ),
                       ),
                     ),

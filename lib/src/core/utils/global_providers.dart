@@ -25,43 +25,43 @@ class GlobalProviders extends StatelessWidget {
         BlocProvider(
           create: (context) => HomeCubit(
             getInitialDataUsecase: locator(),
-          )..fetchInitialData(),
+          ),
         ),
         BlocProvider(
           create: (context) => WalletCubit(
             getWalletDetailUsecase: locator(),
             getWalletDetailsUsecase: locator(),
             insertWalletDetailUsecase: locator(),
-          )..getWalletDetails(),
+          ),
         ),
         BlocProvider(
           create: (context) => RewardCubit(
             getRewardDetailUsecase: locator(),
             getRewardDetailsUsecase: locator(),
             insertRewardDetailUsecase: locator(),
-          )..getRewardDetails(),
+          ),
         ),
         BlocProvider(
           create: (context) => UserCubit(
             getUserDetailUsecase: locator(),
             getUserDetailsUsecase: locator(),
             insertUserDetailUsecase: locator(),
-          )..getUserDetails(),
+          ),
         ),
         BlocProvider(
           create: (context) => MenuCubit(
             locator(),
-          )..fetchMenu(),
+          ),
         ),
         BlocProvider(
           create: (context) => CategoryCubit(
             locator(),
-          )..fetchCategories(),
+          ),
         ),
         BlocProvider(
           create: (context) => SubcategoryCubit(
             locator(),
-          )..fetchSubCategories(),
+          ),
         ),
       ],
       child: child,

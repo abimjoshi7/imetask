@@ -15,11 +15,15 @@ class HomeRepositoryImpl implements HomeRepository {
   @override
   TaskEither<String, BaseResponseDTO> fetchData() => TaskEither.tryCatch(
         () async {
-          final response = await _remoteDS.fetchData();
-          await _localDS.persistMenus(response);
-          await _localDS.persistReward(response);
-          await _localDS.persistUser(response);
-          await _localDS.persistWallet(response);
+          final response = await _remoteDS.fetchData().then(
+            (r) async {
+              await _localDS.persistMenus(r);
+              await _localDS.persistReward(r);
+              await _localDS.persistUser(r);
+              await _localDS.persistWallet(r);
+            },
+          );
+
           return response;
         },
         (error, _) => error.toString(),
