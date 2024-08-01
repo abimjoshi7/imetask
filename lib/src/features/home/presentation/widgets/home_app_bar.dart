@@ -33,11 +33,19 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: List.generate(
         3,
         (index) => IconButton(
-          onPressed: () async {
-            context.read<WalletCubit>().getWalletDetails();
+          onPressed: switch (index) {
+            0 => () => showSearch(
+                  context: context,
+                  delegate: CustomSearchDelegate(),
+                ),
+            _ => null,
           },
-          icon: const Icon(
-            Icons.search,
+          icon: Icon(
+            switch (index) {
+              0 => Icons.search_rounded,
+              1 => Icons.favorite_outlined,
+              _ => Icons.notifications_rounded,
+            },
           ),
         ),
       ),
@@ -46,4 +54,18 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(56);
+}
+
+class CustomSearchDelegate extends SearchDelegate {
+  @override
+  List<Widget>? buildActions(BuildContext context) => [];
+
+  @override
+  Widget? buildLeading(BuildContext context) => null;
+
+  @override
+  Widget buildResults(BuildContext context) => const SizedBox.shrink();
+
+  @override
+  Widget buildSuggestions(BuildContext context) => const SizedBox.shrink();
 }

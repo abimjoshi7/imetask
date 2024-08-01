@@ -24,8 +24,10 @@ class DotIndicator extends StatelessWidget {
           width: isSelected ? 8 : 6,
           decoration: BoxDecoration(
             color: isSelected ? kClrRed : kClrDisabled.withOpacity(0.1),
-            shape: isSelected ? BoxShape.rectangle : BoxShape.circle,
-            borderRadius: isSelected ? BorderRadius.circular(5.0) : null,
+            shape: BoxShape.rectangle,
+            borderRadius: isSelected
+                ? BorderRadius.circular(5.0)
+                : BorderRadius.circular(3.0),
           ),
         );
       }),

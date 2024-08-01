@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:imepay/src/core/utils/extensions.dart';
+import 'package:imepay/src/core/core.dart';
 import 'package:imepay/src/features/features.dart';
 
 class MembershipCard extends StatelessWidget {
@@ -35,7 +35,9 @@ class MembershipCard extends StatelessWidget {
                             : rewardDetails.first.currentCredits.toString(),
                       _ => "0",
                     },
-                    style: context.labelLarge,
+                    style: context.labelLarge?.copyWith(
+                      color: kClrSystem,
+                    ),
                   ),
                 ],
               ),
@@ -47,11 +49,13 @@ class MembershipCard extends StatelessWidget {
                     _ => "0",
                   },
                   style: context.titleLarge?.copyWith(
+                    color: kClrSystem,
                     fontWeight: FontWeight.bold,
                   )),
               Text(
                 "500 point to Gold",
                 style: context.labelSmall?.copyWith(
+                  color: kClrSystem,
                   fontWeight: FontWeight.bold,
                 ),
               ),

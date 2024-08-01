@@ -1,6 +1,6 @@
 export 'bank_link_section.dart';
 export 'banner_section.dart';
-export 'cable_car_section.dart';
+export 'recent_money_transfer_section.dart';
 export 'new_section.dart';
 export 'popular_merchant_section.dart';
 export 'promotion_section.dart';

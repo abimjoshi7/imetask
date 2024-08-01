@@ -17,9 +17,6 @@ class _BottomBarState extends State<BottomBar> {
     setState(() {
       _selectedIndex = index;
     });
-
-    // Add your page change logic here
-    // Example: _pageController.jumpToPage(index);
   }
 
   @override
@@ -31,6 +28,14 @@ class _BottomBarState extends State<BottomBar> {
       decoration: BoxDecoration(
         color: kClrBar,
         borderRadius: BorderRadius.circular(32),
+        boxShadow: [
+          BoxShadow(
+            color: kClrRed.withOpacity(0.1),
+            spreadRadius: .5,
+            blurRadius: 8,
+            offset: const Offset(0, -4),
+          ),
+        ],
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -47,6 +52,10 @@ class _BottomBarState extends State<BottomBar> {
                       decoration: const BoxDecoration(
                         color: kClrRed,
                         shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.qr_code_scanner_rounded,
+                        color: kClrSystem,
                       ),
                     )
                   : Column(
