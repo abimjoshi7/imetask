@@ -1,47 +1,31 @@
-// import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:imepay/src/core/core.dart';
 
-/// Extension on [BuildContext] to provide utility methods for accessing media query information,
-/// text styles, colors, and showing bottom sheets and snack bars.
 extension BuildContextEntension<T> on BuildContext {
-  // * Core
-  /// Returns a [VoidCallback] that pops the current route off the navigator.
   VoidCallback get burn => () => Navigator.pop(this);
 
-  // * Dimensions
-  /// Returns true if the device is considered mobile (small width).
   bool get isMobile => MediaQuery.of(this).size.width <= 500.0;
 
-  /// Returns true if the device is considered a tablet (medium width).
   bool get isTablet =>
       MediaQuery.of(this).size.width < 1024.0 &&
       MediaQuery.of(this).size.width >= 650.0;
 
-  /// Returns true if the device is considered a small tablet (between mobile and tablet size).
   bool get isSmallTablet =>
       MediaQuery.of(this).size.width < 650.0 &&
       MediaQuery.of(this).size.width > 500.0;
 
-  /// Returns true if the device is considered desktop (large width).
   bool get isDesktop => MediaQuery.of(this).size.width >= 1024.0;
 
-  /// Returns true if the device has a small width (between mobile and desktop size).
   bool get isSmall =>
       MediaQuery.of(this).size.width < 850.0 &&
       MediaQuery.of(this).size.width >= 560.0;
 
-  /// Returns the width of the media (screen or window).
   double get width => MediaQuery.of(this).size.width;
 
-  /// Returns the height of the media (screen or window).
   double get height => MediaQuery.of(this).size.height;
 
-  /// Returns the size of the media (screen or window).
   Size get size => MediaQuery.of(this).size;
 
-  // * Text styles
   TextStyle? get displayLarge => Theme.of(this).textTheme.displayLarge;
 
   TextStyle? get displayMedium => Theme.of(this).textTheme.displayMedium;
@@ -76,7 +60,6 @@ extension BuildContextEntension<T> on BuildContext {
         color: this.disabledColor,
       );
 
-  // * Colors
   Color get primaryColorDark => Theme.of(this).primaryColorDark;
 
   Color get primaryColorLight => Theme.of(this).primaryColorLight;
@@ -113,11 +96,8 @@ extension BuildContextEntension<T> on BuildContext {
 
   Color get unselectedWidgetColor => Theme.of(this).unselectedWidgetColor;
 
-  // * Check if theme is dark
   bool get isDark => Theme.of(this).brightness == Brightness.dark;
 
-  /// Shows a snack bar with the given [message].
-  /// Additional customization options are available via named parameters.
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(
     String? message, {
     bool showAction = false,
@@ -170,6 +150,35 @@ extension BuildContextEntension<T> on BuildContext {
               )
             : null,
       ),
+    );
+  }
+
+  Future<T?> showBottomSheet(
+    Widget child, {
+    bool isScrollControlled = true,
+    bool useSafeArea = true,
+    Color? backgroundColor,
+    Color? barrierColor,
+    BoxConstraints? constraints,
+  }) {
+    return showModalBottomSheet(
+      context: this,
+      isScrollControlled: isScrollControlled,
+      useSafeArea: useSafeArea,
+      barrierColor: barrierColor,
+      backgroundColor: backgroundColor,
+      constraints: constraints,
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.viewInsetsOf(context).bottom,
+            left: 8,
+            right: 8,
+            top: 8,
+          ),
+          child: child,
+        );
+      },
     );
   }
 }

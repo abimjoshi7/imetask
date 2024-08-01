@@ -30,7 +30,9 @@ class MembershipCard extends StatelessWidget {
                   Text(
                     switch (context.watch<RewardCubit>().state) {
                       RewardSuccess(:final rewardDetails) =>
-                        rewardDetails.first.currentCredits.toString(),
+                        rewardDetails.isEmpty
+                            ? "0"
+                            : rewardDetails.first.currentCredits.toString(),
                       _ => "0",
                     },
                     style: context.labelLarge,
@@ -39,8 +41,9 @@ class MembershipCard extends StatelessWidget {
               ),
               Text(
                   switch (context.watch<RewardCubit>().state) {
-                    RewardSuccess(:final rewardDetails) =>
-                      rewardDetails.first.memberType,
+                    RewardSuccess(:final rewardDetails) => rewardDetails.isEmpty
+                        ? "0"
+                        : rewardDetails.first.memberType,
                     _ => "0",
                   },
                   style: context.titleLarge?.copyWith(

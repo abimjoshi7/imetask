@@ -45,18 +45,14 @@ class WalletInfoCard extends StatelessWidget {
                   TextSpan(
                     text: switch (context.watch<WalletCubit>().state) {
                       WalletSuccess(:final walletDetails) =>
-                        walletDetails.first.amount,
+                        walletDetails.isEmpty
+                            ? "0"
+                            : walletDetails.first.amount,
                       _ => "0",
                     },
                     style: context.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
-                    // children: [
-                    //   TextSpan(
-                    //     text: ".00",
-                    //     style: context.titleMedium,
-                    //   ),
-                    // ],
                   ),
                 )
               ],
@@ -87,7 +83,9 @@ class WalletInfoCard extends StatelessWidget {
                   TextSpan(
                     text: "+${switch (context.watch<WalletCubit>().state) {
                       WalletSuccess(:final walletDetails) =>
-                        walletDetails.first.interestAmount,
+                        walletDetails.isEmpty
+                            ? "0"
+                            : walletDetails.first.interestAmount,
                       _ => "0"
                     }}",
                     style: context.titleSmall?.copyWith(

@@ -9,14 +9,17 @@ import '../../../features/features.dart';
 part 'app_database.g.dart';
 
 @TypeConverters([DateTimeConverter])
-@Database(version: 1, entities: [
-  WalletDetailsDTO,
-  RewardDetailsDTO,
-  UserDetailsDTO,
-  HomeMenu,
-  MenuItem,
-  SubMenuItem,
-])
+@Database(
+  version: 1,
+  entities: [
+    WalletDetailsDTO,
+    RewardDetailsDTO,
+    UserDetailsDTO,
+    HomeMenu,
+    MenuItem,
+    SubMenuItem,
+  ],
+)
 abstract class AppDatabase extends FloorDatabase {
   WalletDao get walletDao;
   RewardDao get rewardDao;

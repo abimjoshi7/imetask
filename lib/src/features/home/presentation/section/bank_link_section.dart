@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:imepay/src/core/utils/extensions.dart';
-import 'package:imepay/src/features/home/presentation/cubit/menu_cubit.dart';
+import 'package:imepay/src/features/home/presentation/cubit/category_cubit.dart';
 
 class BankLinkSection extends StatelessWidget {
   const BankLinkSection({super.key});
@@ -14,23 +14,25 @@ class BankLinkSection extends StatelessWidget {
           width: double.maxFinite,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(24),
-            image: context
-                    .watch<MenuCubit>()
-                    .getCategoriesById(13)
-                    .first
-                    .icon
-                    .isValidUrl()
-                ? DecorationImage(
-                    image: NetworkImage(
-                      context
-                          .watch<MenuCubit>()
-                          .getCategoriesById(13)
-                          .first
-                          .icon,
-                    ),
-                    fit: BoxFit.cover,
-                  )
-                : null,
+            image: context.watch<CategoryCubit>().getCategoriesById(13).isEmpty
+                ? null
+                : context
+                        .watch<CategoryCubit>()
+                        .getCategoriesById(13)
+                        .first
+                        .icon
+                        .isValidUrl()
+                    ? DecorationImage(
+                        image: NetworkImage(
+                          context
+                              .watch<CategoryCubit>()
+                              .getCategoriesById(13)
+                              .first
+                              .icon,
+                        ),
+                        fit: BoxFit.cover,
+                      )
+                    : null,
           ),
         ),
       );

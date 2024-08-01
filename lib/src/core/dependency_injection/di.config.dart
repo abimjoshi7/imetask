@@ -20,6 +20,12 @@ import 'package:imepay/src/core/services/database/database.dart' as _i316;
 import 'package:imepay/src/features/features.dart' as _i159;
 import 'package:imepay/src/features/home/data/datasources/local/home_local_ds.dart'
     as _i862;
+import 'package:imepay/src/features/home/data/datasources/local/home_menu_dao.dart'
+    as _i732;
+import 'package:imepay/src/features/home/data/datasources/local/menu_item_dao.dart'
+    as _i992;
+import 'package:imepay/src/features/home/data/datasources/local/sub_menu_item_dao.dart'
+    as _i69;
 import 'package:imepay/src/features/home/data/datasources/remote/home_remote_ds.dart'
     as _i574;
 import 'package:imepay/src/features/home/data/repository/home_repository_impl.dart'
@@ -60,7 +66,6 @@ import 'package:imepay/src/features/reward/domain/usecases/get_reward_details_us
     as _i380;
 import 'package:imepay/src/features/reward/domain/usecases/insert_reward_detail_usecase.dart'
     as _i145;
-import 'package:imepay/src/features/sandbox/doa.dart' as _i998;
 import 'package:imepay/src/features/wallet/data/datasources/local/wallet_doa_factory.dart'
     as _i67;
 import 'package:imepay/src/features/wallet/data/datasources/local/wallet_local_ds.dart'
@@ -103,12 +108,12 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i1005.RewardDaoFactory(gh<_i136.AppDatabase>()));
     gh.factory<_i334.UserDaoFactory>(
         () => _i334.UserDaoFactory(gh<_i136.AppDatabase>()));
-    gh.factory<_i998.HomeMenuDaoFactory>(
-        () => _i998.HomeMenuDaoFactory(gh<_i229.AppDatabase>()));
-    gh.factory<_i998.MenuItemDaoFactory>(
-        () => _i998.MenuItemDaoFactory(gh<_i229.AppDatabase>()));
-    gh.factory<_i998.SubMenuItemDaoFactory>(
-        () => _i998.SubMenuItemDaoFactory(gh<_i229.AppDatabase>()));
+    gh.factory<_i69.SubMenuItemDaoFactory>(
+        () => _i69.SubMenuItemDaoFactory(gh<_i229.AppDatabase>()));
+    gh.factory<_i732.HomeMenuDaoFactory>(
+        () => _i732.HomeMenuDaoFactory(gh<_i229.AppDatabase>()));
+    gh.factory<_i992.MenuItemDaoFactory>(
+        () => _i992.MenuItemDaoFactory(gh<_i229.AppDatabase>()));
     gh.lazySingleton<_i467.NetworkInfo>(
         () => _i467.NetworkInfoImpl(connectivity: gh<_i895.Connectivity>()));
     gh.lazySingleton<_i70.WalletLocalDs>(

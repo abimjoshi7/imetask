@@ -42,7 +42,7 @@ class _BannerSectionState extends State<BannerSection> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 16),
           child: SizedBox(
-            height: context.height * 0.18,
+            height: context.height * 0.19,
             width: double.maxFinite,
             child: OverflowBox(
               maxWidth: MediaQuery.of(context).size.width,
@@ -59,20 +59,20 @@ class _BannerSectionState extends State<BannerSection> {
                         padding: index == itemCount - 1
                             ? const EdgeInsets.only(right: 16)
                             : const EdgeInsets.only(left: 16),
-                        child: CarouselItem(index: index),
+                        child: _CarouselItem(index: index),
                       ),
                     );
                   } else if (index == currentPage + 1 &&
                       currentPage < itemCount - 1) {
                     return Transform.scale(
                       scale: 0.9,
-                      child: CarouselItem(index: index),
+                      child: _CarouselItem(index: index),
                     );
                   } else if (index == currentPage - 1 &&
                       currentPage == itemCount - 1) {
                     return Transform.scale(
                       scale: 0.9,
-                      child: CarouselItem(index: index),
+                      child: _CarouselItem(index: index),
                     );
                   } else {
                     return const SizedBox.shrink();
@@ -87,11 +87,10 @@ class _BannerSectionState extends State<BannerSection> {
   }
 }
 
-class CarouselItem extends StatelessWidget {
+class _CarouselItem extends StatelessWidget {
   final int index;
 
-  const CarouselItem({
-    super.key,
+  const _CarouselItem({
     required this.index,
   });
 
